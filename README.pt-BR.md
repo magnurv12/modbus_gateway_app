@@ -208,7 +208,7 @@ aconteceu, por quê e o que fazer**:
 ### Instalar
 
 ```bash
-git clone <url-do-repositorio> modbus_gateway_app
+git clone https://github.com/magnurv12/modbus_gateway_app.git modbus_gateway_app
 cd modbus_gateway_app
 flutter pub get
 dart run build_runner build   # freezed / json_serializable (gerados já versionados)

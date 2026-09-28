@@ -208,7 +208,7 @@ Every gateway error becomes a typed `Failure` that tells the operator
 ### Install
 
 ```bash
-git clone <repository-url> modbus_gateway_app
+git clone https://github.com/magnurv12/modbus_gateway_app.git modbus_gateway_app
 cd modbus_gateway_app
 flutter pub get
 dart run build_runner build   # freezed / json_serializable (outputs are committed)
