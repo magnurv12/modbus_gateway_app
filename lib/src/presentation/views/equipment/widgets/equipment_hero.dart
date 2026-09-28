@@ -108,7 +108,8 @@ class _Visual extends StatelessWidget {
     final c = context.colors;
     final alarmColor = alarm?.tone.color(c);
 
-    if (equipment.type == EquipmentType.tank && equipment.primaryTags.isNotEmpty) {
+    if (equipment.type == EquipmentType.tank &&
+        equipment.primaryTags.isNotEmpty) {
       final level = equipment.primaryTags.first;
       final min = level.min ?? 0;
       final max = level.max ?? 100;

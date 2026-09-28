@@ -39,7 +39,11 @@ class _DsSkeletonState extends State<DsSkeleton>
         height: widget.height,
         width: widget.width,
         decoration: BoxDecoration(
-          color: Color.lerp(c.surfaceSunken, c.surfaceRaised, _controller.value),
+          color: Color.lerp(
+            c.surfaceSunken,
+            c.surfaceRaised,
+            _controller.value,
+          ),
           borderRadius: context.radius.sm,
         ),
       ),
@@ -163,10 +167,13 @@ class DsMessageView extends StatelessWidget {
                     color: context.colors.surfaceSunken,
                     borderRadius: context.radius.md,
                   ),
-                  child: Text(hint!, style: context.ds.mono.copyWith(
-                    fontSize: 12,
-                    color: context.colors.textSecondary,
-                  )),
+                  child: Text(
+                    hint!,
+                    style: context.ds.mono.copyWith(
+                      fontSize: 12,
+                      color: context.colors.textSecondary,
+                    ),
+                  ),
                 ),
               ],
               if (onAction != null && actionLabel != null) ...[
@@ -247,7 +254,10 @@ extension DsSnackBar on BuildContext {
           ),
           action: actionLabel == null
               ? null
-              : SnackBarAction(label: actionLabel, onPressed: onAction ?? () {}),
+              : SnackBarAction(
+                  label: actionLabel,
+                  onPressed: onAction ?? () {},
+                ),
         ),
       );
   }

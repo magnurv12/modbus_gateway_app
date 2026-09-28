@@ -59,27 +59,27 @@ class _EquipmentPageState extends ViewState<EquipmentPage, EquipmentViewModel> {
         viewModel: viewModel,
         builder: (context, state) => switch (state) {
           EquipmentStateLoading() => Scaffold(
-              appBar: AppBar(),
-              body: const DsLoadingView(),
-            ),
+            appBar: AppBar(),
+            body: const DsLoadingView(),
+          ),
           EquipmentStateNotFound(:final equipmentId) => Scaffold(
-              appBar: AppBar(),
-              body: DsMessageView(
-                icon: Icons.search_off_rounded,
-                title: 'Equipamento não encontrado',
-                message: 'Não existe "$equipmentId" no mapa da planta atual.',
-                actionLabel: 'Voltar para a planta',
-                onAction: () => context.goNamed(AppRoutes.dashboard),
-              ),
+            appBar: AppBar(),
+            body: DsMessageView(
+              icon: Icons.search_off_rounded,
+              title: 'Equipamento não encontrado',
+              message: 'Não existe "$equipmentId" no mapa da planta atual.',
+              actionLabel: 'Voltar para a planta',
+              onAction: () => context.goNamed(AppRoutes.dashboard),
             ),
+          ),
           EquipmentStateError(:final failure) => Scaffold(
-              appBar: AppBar(),
-              body: FailureView(failure: failure, onRetry: viewModel.load),
-            ),
+            appBar: AppBar(),
+            body: FailureView(failure: failure, onRetry: viewModel.load),
+          ),
           final EquipmentStateLoaded loaded => _Loaded(
-              state: loaded,
-              viewModel: viewModel,
-            ),
+            state: loaded,
+            viewModel: viewModel,
+          ),
         },
       ),
     );
@@ -176,11 +176,7 @@ class _Loaded extends StatelessWidget {
           ],
           if (statuses.isNotEmpty) ...[
             const DsSectionHeader('Status', caption: 'entradas discretas'),
-            _StatusGrid(
-              tags: statuses,
-              live: live,
-              alarmByTag: alarmByTag,
-            ),
+            _StatusGrid(tags: statuses, live: live, alarmByTag: alarmByTag),
           ],
           if (commands.isNotEmpty) ...[
             const DsSectionHeader('Comandos', caption: 'coils'),

@@ -72,21 +72,21 @@ void main() {
       watchAlarms = _WatchAlarms();
       writeTag = _WriteTag();
       when(() => getPlant()).thenAnswer((_) async => const Right(plant));
-      when(() => watchLive(any())).thenAnswer(
-        (_) => Stream.value(PlantLiveState.initial),
-      );
+      when(
+        () => watchLive(any()),
+      ).thenAnswer((_) => Stream.value(PlantLiveState.initial));
       when(() => watchAlarms(any())).thenAnswer((_) => Stream.value(const []));
     });
 
     EquipmentViewModel build(String id) => EquipmentViewModel(
-          id,
-          getPlant,
-          watchLive,
-          watchAlarms,
-          writeTag,
-          _PulseTag(),
-          _Ack(),
-        );
+      id,
+      getPlant,
+      watchLive,
+      watchAlarms,
+      writeTag,
+      _PulseTag(),
+      _Ack(),
+    );
 
     blocTest<EquipmentViewModel, EquipmentState>(
       'id inexistente → notFound',
@@ -96,8 +96,9 @@ void main() {
     );
 
     test('comando marca pendente, confirma e emite efeito', () async {
-      when(() => writeTag(any(), any()))
-          .thenAnswer((_) async => const Right(block));
+      when(
+        () => writeTag(any(), any()),
+      ).thenAnswer((_) async => const Right(block));
       final vm = build('p101');
       await Future<void>.delayed(Duration.zero);
       final effects = <EquipmentEffect>[];
@@ -105,8 +106,13 @@ void main() {
 
       final pendingSeen = expectLater(
         vm.stream,
-        emitsThrough(isA<EquipmentStateLoaded>()
-            .having((s) => s.pendingWrites, 'pending', {'cmd'})),
+        emitsThrough(
+          isA<EquipmentStateLoaded>().having(
+            (s) => s.pendingWrites,
+            'pending',
+            {'cmd'},
+          ),
+        ),
       );
       await vm.setCommand(pumpCmd, true);
       await pendingSeen;
@@ -119,8 +125,9 @@ void main() {
     });
 
     test('falha de escrita vira efeito com a Failure', () async {
-      when(() => writeTag(any(), any()))
-          .thenAnswer((_) async => const Left(Failure.slaveTimeout()));
+      when(
+        () => writeTag(any(), any()),
+      ).thenAnswer((_) async => const Left(Failure.slaveTimeout()));
       final vm = build('p101');
       await Future<void>.delayed(Duration.zero);
       final effects = <EquipmentEffect>[];
@@ -131,8 +138,11 @@ void main() {
 
       expect(
         effects.single,
-        isA<WriteFailed>().having((e) => e.failure, 'failure',
-            isA<SlaveTimeoutFailure>()),
+        isA<WriteFailed>().having(
+          (e) => e.failure,
+          'failure',
+          isA<SlaveTimeoutFailure>(),
+        ),
       );
       await vm.close();
     });
@@ -145,16 +155,22 @@ void main() {
 
     blocTest<ExplorerViewModel, ExplorerState>(
       'leitura com sucesso registra bloco e log',
-      setUp: () => when(() => read(
-            table: any(named: 'table'),
-            start: any(named: 'start'),
-            count: any(named: 'count'),
-            slave: any(named: 'slave'),
-          )).thenAnswer((_) async => const Right(block)),
+      setUp: () => when(
+        () => read(
+          table: any(named: 'table'),
+          start: any(named: 'start'),
+          count: any(named: 'count'),
+          slave: any(named: 'slave'),
+        ),
+      ).thenAnswer((_) async => const Right(block)),
       build: () => ExplorerViewModel(read, _WriteValues(), defaultSlave: 1),
       act: (vm) => vm.read(),
       expect: () => [
-        isA<ExplorerState>().having((s) => s.status, 'status', ExplorerStatus.loading),
+        isA<ExplorerState>().having(
+          (s) => s.status,
+          'status',
+          ExplorerStatus.loading,
+        ),
         isA<ExplorerState>()
             .having((s) => s.status, 'status', ExplorerStatus.success)
             .having((s) => s.block, 'block', block)
@@ -164,12 +180,14 @@ void main() {
 
     blocTest<ExplorerViewModel, ExplorerState>(
       'falha permanente desliga a leitura contínua',
-      setUp: () => when(() => read(
-            table: any(named: 'table'),
-            start: any(named: 'start'),
-            count: any(named: 'count'),
-            slave: any(named: 'slave'),
-          )).thenAnswer((_) async => const Left(Failure.validation('x'))),
+      setUp: () => when(
+        () => read(
+          table: any(named: 'table'),
+          start: any(named: 'start'),
+          count: any(named: 'count'),
+          slave: any(named: 'slave'),
+        ),
+      ).thenAnswer((_) async => const Left(Failure.validation('x'))),
       build: () => ExplorerViewModel(read, _WriteValues(), defaultSlave: 1),
       act: (vm) => vm.toggleAutoRefresh(),
       wait: const Duration(milliseconds: 10),

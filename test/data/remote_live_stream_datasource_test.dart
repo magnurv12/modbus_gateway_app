@@ -14,13 +14,13 @@ void main() {
     final result = Completer<Object>();
 
     dataSource.connect().listen(
-          (_) {},
-          onError: result.complete,
-          onDone: () {
-            if (!result.isCompleted) result.complete('done');
-          },
-          cancelOnError: true,
-        );
+      (_) {},
+      onError: result.complete,
+      onDone: () {
+        if (!result.isCompleted) result.complete('done');
+      },
+      cancelOnError: true,
+    );
 
     final outcome = await result.future.timeout(const Duration(seconds: 5));
     expect(FailureMapper.fromException(outcome).isTransient, isTrue);

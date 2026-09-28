@@ -37,8 +37,9 @@ class SetpointSheet extends StatefulWidget {
 
 class _SetpointSheetState extends State<SetpointSheet> {
   late double _value = _clamp(widget.current);
-  late final TextEditingController _controller =
-      TextEditingController(text: _format(_value));
+  late final TextEditingController _controller = TextEditingController(
+    text: _format(_value),
+  );
   String? _error;
 
   TagDefinition get _tag => widget.tag;
@@ -48,8 +49,10 @@ class _SetpointSheetState extends State<SetpointSheet> {
 
   double _clamp(double v) => v.clamp(_min, _max).toDouble();
 
-  String _format(double v) => Formatters.number(v, decimals: _tag.decimals)
-      .replaceAll('.', ''); // campo sem separador de milhar
+  String _format(double v) => Formatters.number(
+    v,
+    decimals: _tag.decimals,
+  ).replaceAll('.', ''); // campo sem separador de milhar
 
   void _onSlider(double v) {
     final snapped = (v / _step).round() * _step;

@@ -37,16 +37,13 @@ class ShellViewModel extends ViewModel<ShellState> {
   Future<void> load() async {
     emit(const ShellState.loading());
     final result = await _getPlant();
-    result.fold(
-      (failure) => emit(ShellState.error(failure)),
-      (plant) {
-        emit(const ShellState.ready(status: LiveConnectionStatus.connecting));
-        unawaited(_liveSub?.cancel());
-        unawaited(_alarmSub?.cancel());
-        _liveSub = _watchLive(plant).listen(_onLive);
-        _alarmSub = _watchAlarms(plant).listen(_onAlarms);
-      },
-    );
+    result.fold((failure) => emit(ShellState.error(failure)), (plant) {
+      emit(const ShellState.ready(status: LiveConnectionStatus.connecting));
+      unawaited(_liveSub?.cancel());
+      unawaited(_alarmSub?.cancel());
+      _liveSub = _watchLive(plant).listen(_onLive);
+      _alarmSub = _watchAlarms(plant).listen(_onAlarms);
+    });
   }
 
   /// Pausa o streaming em segundo plano: libera uma das 4 vagas de cliente
@@ -73,25 +70,29 @@ class ShellViewModel extends ViewModel<ShellState> {
         current.nextRetryAt == live.nextRetryAt) {
       return; // ignora atualizações de valores: o shell não mostra valores
     }
-    emit(current.copyWith(
-      status: live.status,
-      connectionFailure: live.connectionFailure,
-      nextRetryAt: live.nextRetryAt,
-    ));
+    emit(
+      current.copyWith(
+        status: live.status,
+        connectionFailure: live.connectionFailure,
+        nextRetryAt: live.nextRetryAt,
+      ),
+    );
   }
 
   void _onAlarms(List<Alarm> alarms) {
     final current = state;
     if (current is! ShellStateReady) return;
     final pending = alarms.where((a) => !a.acknowledged).toList();
-    emit(current.copyWith(
-      pendingAlarms: pending.length,
-      topSeverity: pending.isEmpty
-          ? null
-          : pending
-              .map((a) => a.severity)
-              .reduce((a, b) => a.priority <= b.priority ? a : b),
-    ));
+    emit(
+      current.copyWith(
+        pendingAlarms: pending.length,
+        topSeverity: pending.isEmpty
+            ? null
+            : pending
+                  .map((a) => a.severity)
+                  .reduce((a, b) => a.priority <= b.priority ? a : b),
+      ),
+    );
   }
 
   @override

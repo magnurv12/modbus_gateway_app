@@ -59,11 +59,15 @@ class MeasurementTile extends StatelessWidget {
             SizedBox(height: s.xs),
             Row(
               children: [
-                Text(Formatters.number(min, decimals: tag.decimals),
-                    style: context.text.bodySmall),
+                Text(
+                  Formatters.number(min, decimals: tag.decimals),
+                  style: context.text.bodySmall,
+                ),
                 const Spacer(),
-                Text(Formatters.withUnit(max, tag.unit, decimals: tag.decimals),
-                    style: context.text.bodySmall),
+                Text(
+                  Formatters.withUnit(max, tag.unit, decimals: tag.decimals),
+                  style: context.text.bodySmall,
+                ),
               ],
             ),
           ],
@@ -199,7 +203,7 @@ class CommandTile extends StatelessWidget {
       );
     }
 
-    return Padding(
+    final row = Padding(
       padding: EdgeInsets.symmetric(vertical: s.sm),
       child: Row(
         children: [
@@ -213,8 +217,8 @@ class CommandTile extends StatelessWidget {
                   tag.momentary
                       ? 'Pulso de 0,5 s na coil ${tag.address}'
                       : on == null
-                          ? 'Aguardando leitura…'
-                          : 'Estado: ${on ? tag.onLabel : tag.offLabel} · coil ${tag.address}',
+                      ? 'Aguardando leitura…'
+                      : 'Estado: ${on ? tag.onLabel : tag.offLabel} · coil ${tag.address}',
                   style: context.text.bodySmall,
                 ),
               ],
@@ -225,6 +229,9 @@ class CommandTile extends StatelessWidget {
         ],
       ),
     );
+    // Um nó só para o leitor de tela: "Comando da bomba, Estado: Ligada,
+    // ativado" em vez de um switch sem rótulo.
+    return MergeSemantics(child: row);
   }
 
   Future<void> _confirmToggle(BuildContext context, bool value) async {
@@ -232,7 +239,8 @@ class CommandTile extends StatelessWidget {
     final ok = await showDsConfirmDialog(
       context,
       title: '${tag.name}: $label?',
-      message: 'O comando será enviado ao escravo Modbus e só será '
+      message:
+          'O comando será enviado ao escravo Modbus e só será '
           'considerado concluído após a confirmação dele.',
       confirmLabel: 'Confirmar',
       tone: value ? DsTone.accent : DsTone.high,
@@ -281,7 +289,7 @@ class SetpointTile extends StatelessWidget {
     final s = context.spacing;
     final range = tag.min != null && tag.max != null
         ? 'faixa ${Formatters.number(tag.min!, decimals: tag.decimals)}–'
-            '${Formatters.withUnit(tag.max!, tag.unit, decimals: tag.decimals)}'
+              '${Formatters.withUnit(tag.max!, tag.unit, decimals: tag.decimals)}'
         : 'sem faixa definida';
     return Padding(
       padding: EdgeInsets.symmetric(vertical: s.sm),
@@ -312,8 +320,9 @@ class SetpointTile extends StatelessWidget {
                 )
               : IconButton.filledTonal(
                   tooltip: 'Ajustar',
-                  onPressed:
-                      reading?.quality == TagQuality.good ? onEdit : null,
+                  onPressed: reading?.quality == TagQuality.good
+                      ? onEdit
+                      : null,
                   icon: const Icon(Icons.tune_rounded),
                 ),
         ],

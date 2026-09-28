@@ -19,7 +19,7 @@ class DashboardViewModel extends ViewModel<DashboardState> {
 
   /// Cria um [DashboardViewModel].
   DashboardViewModel(this._getPlant, this._watchLive, this._watchAlarms)
-      : super(const DashboardState.loading());
+    : super(const DashboardState.loading());
 
   @override
   void initViewModel() {
@@ -52,14 +52,16 @@ class DashboardViewModel extends ViewModel<DashboardState> {
   void _publish() {
     final plant = _plant;
     if (plant == null) return;
-    emit(DashboardState.loaded(
-      plant: plant,
-      live: _live,
-      alarms: _alarms,
-      equipments: [
-        for (final equipment in plant.equipments) summarize(equipment),
-      ],
-    ));
+    emit(
+      DashboardState.loaded(
+        plant: plant,
+        live: _live,
+        alarms: _alarms,
+        equipments: [
+          for (final equipment in plant.equipments) summarize(equipment),
+        ],
+      ),
+    );
   }
 
   /// Regras de apresentação do card de um equipamento.
@@ -70,8 +72,8 @@ class DashboardViewModel extends ViewModel<DashboardState> {
     final worst = pending.isEmpty
         ? null
         : pending
-            .map((a) => a.severity)
-            .reduce((a, b) => a.priority <= b.priority ? a : b);
+              .map((a) => a.severity)
+              .reduce((a, b) => a.priority <= b.priority ? a : b);
 
     final readings = [for (final t in equipment.tags) _live.reading(t.id)];
     final EquipmentCondition condition;

@@ -44,9 +44,9 @@ sealed class TagValue with _$TagValue {
 
   /// Representação numérica (bool → 0/1), útil em gráficos.
   double get asDouble => switch (this) {
-        NumberTagValue(:final value) => value,
-        BooleanTagValue(:final value) => value ? 1 : 0,
-      };
+    NumberTagValue(:final value) => value,
+    BooleanTagValue(:final value) => value ? 1 : 0,
+  };
 }
 
 /// Leitura atual de uma tag.
@@ -68,10 +68,8 @@ abstract class TagReading with _$TagReading {
 @freezed
 abstract class TrendPoint with _$TrendPoint {
   /// Cria um [TrendPoint].
-  const factory TrendPoint({
-    required DateTime time,
-    required double value,
-  }) = _TrendPoint;
+  const factory TrendPoint({required DateTime time, required double value}) =
+      _TrendPoint;
 }
 
 /// Fotografia do estado ao vivo da planta.
@@ -93,7 +91,9 @@ abstract class PlantLiveState with _$PlantLiveState {
   }) = _PlantLiveState;
 
   /// Estado inicial, antes de qualquer conexão.
-  static const initial = PlantLiveState(status: LiveConnectionStatus.connecting);
+  static const initial = PlantLiveState(
+    status: LiveConnectionStatus.connecting,
+  );
 
   /// Leitura de uma tag, ou `null` se ainda não chegou.
   TagReading? reading(String tagId) => readings[tagId];
@@ -103,13 +103,13 @@ abstract class PlantLiveState with _$PlantLiveState {
 
   /// Valor digital de uma tag, ou `null`.
   bool? boolOf(String tagId) => switch (readings[tagId]?.value) {
-        BooleanTagValue(:final value) => value,
-        _ => null,
-      };
+    BooleanTagValue(:final value) => value,
+    _ => null,
+  };
 
   /// Valor analógico de uma tag, ou `null`.
   double? numberOf(String tagId) => switch (readings[tagId]?.value) {
-        NumberTagValue(:final value) => value,
-        _ => null,
-      };
+    NumberTagValue(:final value) => value,
+    _ => null,
+  };
 }

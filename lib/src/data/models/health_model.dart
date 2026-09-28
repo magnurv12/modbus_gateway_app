@@ -32,44 +32,44 @@ abstract class HealthModel with _$HealthModel {
 
   /// Converte para a entidade de domínio.
   GatewayHealth toEntity() => GatewayHealth(
-        uptime: Duration(milliseconds: uptimeMs),
-        freeHeapBytes: freeHeap,
-        resetReason: resetReason,
-        modbusLinkUp: modbusLinkUp,
-        wifi: WifiInfo(
-          ssid: wifi.ssid,
-          rssi: wifi.rssi,
-          ip: wifi.ip,
-          hostname: wifi.hostname,
-          mac: wifi.mac,
-          channel: wifi.channel,
-        ),
-        firmware: FirmwareInfo(
-          version: firmware.version,
-          buildTime: firmware.buildTime,
-          arduinoCore: firmware.arduinoCore,
-          idf: firmware.idf,
-          chip: firmware.chip,
-        ),
-        modbus: ModbusLinkStats(
-          okCount: modbus.okCount,
-          errorCount: modbus.errorCount,
-          lastResult: modbus.lastResult,
-          lastSlave: modbus.lastSlave,
-          lastAttemptAtMs: modbus.lastAttemptAt,
-          lastSuccessAtMs: modbus.lastSuccessAt,
-          cacheHits: modbus.cacheHits,
-          baud: modbus.config.baud,
-          format: modbus.config.format,
-          responseTimeoutMs: modbus.config.responseTimeoutMs,
-        ),
-        stream: StreamStats(
-          clients: stream.clients,
-          subscriptions: stream.subscriptions,
-          pollBlocks: stream.pollBlocks,
-          busLoadPct: stream.busLoadPct,
-        ),
-      );
+    uptime: Duration(milliseconds: uptimeMs),
+    freeHeapBytes: freeHeap,
+    resetReason: resetReason,
+    modbusLinkUp: modbusLinkUp,
+    wifi: WifiInfo(
+      ssid: wifi.ssid,
+      rssi: wifi.rssi,
+      ip: wifi.ip,
+      hostname: wifi.hostname,
+      mac: wifi.mac,
+      channel: wifi.channel,
+    ),
+    firmware: FirmwareInfo(
+      version: firmware.version,
+      buildTime: firmware.buildTime,
+      arduinoCore: firmware.arduinoCore,
+      idf: firmware.idf,
+      chip: firmware.chip,
+    ),
+    modbus: ModbusLinkStats(
+      okCount: modbus.okCount,
+      errorCount: modbus.errorCount,
+      lastResult: modbus.lastResult,
+      lastSlave: modbus.lastSlave,
+      lastAttemptAtMs: modbus.lastAttemptAt,
+      lastSuccessAtMs: modbus.lastSuccessAt,
+      cacheHits: modbus.cacheHits,
+      baud: modbus.config.baud,
+      format: modbus.config.format,
+      responseTimeoutMs: modbus.config.responseTimeoutMs,
+    ),
+    stream: StreamStats(
+      clients: stream.clients,
+      subscriptions: stream.subscriptions,
+      pollBlocks: stream.pollBlocks,
+      busLoadPct: stream.busLoadPct,
+    ),
+  );
 }
 
 /// Bloco `wifi`.

@@ -22,30 +22,26 @@ sealed class WsMessage {
   static WsMessage? fromJson(Map<String, dynamic> json) {
     return switch (json['type']) {
       'hello' => WsHello(
-          clientId: json['clientId'],
-          defaultSlave: json['defaultSlave'] as int? ?? 1,
-        ),
+        clientId: json['clientId'],
+        defaultSlave: json['defaultSlave'] as int? ?? 1,
+      ),
       'subscribed' || 'interval' => WsSubscribed(
-          id: json['id'] as String,
-          effectiveIntervalMs: (json['effectiveIntervalMs'] ??
-              json['intervalMs'] ??
-              0) as int,
-        ),
+        id: json['id'] as String,
+        effectiveIntervalMs:
+            (json['effectiveIntervalMs'] ?? json['intervalMs'] ?? 0) as int,
+      ),
       'snapshot' => WsSnapshot(
-          id: json['id'] as String,
-          startAddress: json['startAddress'] as int,
-          values: [for (final v in json['values'] as List) _toInt(v)],
-        ),
+        id: json['id'] as String,
+        startAddress: json['startAddress'] as int,
+        values: [for (final v in json['values'] as List) _toInt(v)],
+      ),
       'update' => WsUpdate(
-          id: json['id'] as String,
-          changes: [
-            for (final pair in json['changes'] as List)
-              (
-                address: (pair as List)[0] as int,
-                value: _toInt(pair[1]),
-              ),
-          ],
-        ),
+        id: json['id'] as String,
+        changes: [
+          for (final pair in json['changes'] as List)
+            (address: (pair as List)[0] as int, value: _toInt(pair[1])),
+        ],
+      ),
       'error' => WsError(id: json['id'] as String?, raw: json),
       'unsubscribed' => WsUnsubscribed(id: json['id'] as String),
       _ => null,
@@ -53,11 +49,11 @@ sealed class WsMessage {
   }
 
   static int _toInt(Object? v) => switch (v) {
-        true => 1,
-        false => 0,
-        final num n => n.toInt(),
-        _ => throw const FormatException('Valor inválido no streaming.'),
-      };
+    true => 1,
+    false => 0,
+    final num n => n.toInt(),
+    _ => throw const FormatException('Valor inválido no streaming.'),
+  };
 }
 
 /// Saudação ao conectar.

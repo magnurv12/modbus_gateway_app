@@ -14,17 +14,19 @@ import 'package:modbus_supervisor/src/presentation/views/views.dart';
 void main() {
   setUp(() async {
     await initializeDateFormatting('pt_BR');
-    setupInjector(Env(
-      name: 'test',
-      appName: 'Supervisório (teste)',
-      baseUrl: Uri.parse('http://modbus-gateway.local'),
-      wsPath: '/ws',
-      requestTimeout: const Duration(seconds: 4),
-      defaultSlave: 1,
-      liveInterval: const Duration(milliseconds: 200),
-      healthRefresh: const Duration(seconds: 5),
-      useSimulator: true,
-    ));
+    setupInjector(
+      Env(
+        name: 'test',
+        appName: 'Supervisório (teste)',
+        baseUrl: Uri.parse('http://modbus-gateway.local'),
+        wsPath: '/ws',
+        requestTimeout: const Duration(seconds: 4),
+        defaultSlave: 1,
+        liveInterval: const Duration(milliseconds: 200),
+        healthRefresh: const Duration(seconds: 5),
+        useSimulator: true,
+      ),
+    );
   });
 
   tearDown(() => GetIt.instance.reset());
@@ -86,7 +88,9 @@ void main() {
 /// árvore estabilizar.
 Future<void> _settleIo(WidgetTester tester) async {
   for (var i = 0; i < 8; i++) {
-    await tester.runAsync(() => Future<void>.delayed(const Duration(milliseconds: 50)));
+    await tester.runAsync(
+      () => Future<void>.delayed(const Duration(milliseconds: 50)),
+    );
     await tester.pump(const Duration(milliseconds: 300));
   }
 }

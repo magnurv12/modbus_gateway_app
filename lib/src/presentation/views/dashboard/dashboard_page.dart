@@ -27,8 +27,10 @@ class _DashboardPageState extends ViewState<DashboardPage, DashboardViewModel> {
         viewModel: viewModel,
         builder: (context, state) => switch (state) {
           DashboardStateLoading() => const SafeArea(child: DsLoadingView()),
-          DashboardStateError(:final failure) =>
-            FailureView(failure: failure, onRetry: viewModel.load),
+          DashboardStateError(:final failure) => FailureView(
+            failure: failure,
+            onRetry: viewModel.load,
+          ),
           final DashboardStateLoaded loaded => _Loaded(state: loaded),
         },
       ),

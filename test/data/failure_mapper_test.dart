@@ -74,7 +74,9 @@ void main() {
   group('FailureMapper.fromException', () {
     test('rede e timeout', () {
       expect(
-        FailureMapper.fromException(const NetworkException('Failed host lookup')),
+        FailureMapper.fromException(
+          const NetworkException('Failed host lookup'),
+        ),
         const Failure.gatewayUnreachable(detail: 'Failed host lookup'),
       );
       expect(

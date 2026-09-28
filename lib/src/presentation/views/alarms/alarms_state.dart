@@ -39,16 +39,16 @@ sealed class AlarmsState extends ViewModelState with _$AlarmsState {
 extension AlarmsStateLoadedX on AlarmsStateLoaded {
   /// Alarmes após o filtro.
   List<Alarm> get visible => switch (filter) {
-        AlarmFilter.all => all,
-        AlarmFilter.active => all.where((a) => a.active).toList(),
-        AlarmFilter.unacknowledged => all.where((a) => !a.acknowledged).toList(),
-      };
+    AlarmFilter.all => all,
+    AlarmFilter.active => all.where((a) => a.active).toList(),
+    AlarmFilter.unacknowledged => all.where((a) => !a.acknowledged).toList(),
+  };
 
   /// Quantidade ativa por severidade.
   Map<AlarmSeverity, int> get activeBySeverity => {
-        for (final severity in AlarmSeverity.values)
-          severity: all.where((a) => a.active && a.severity == severity).length,
-      };
+    for (final severity in AlarmSeverity.values)
+      severity: all.where((a) => a.active && a.severity == severity).length,
+  };
 
   /// Quantidade não reconhecida.
   int get unacknowledgedCount => all.where((a) => !a.acknowledged).length;

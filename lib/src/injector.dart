@@ -25,11 +25,8 @@ void setupInjector(Env env) {
     ..registerSingleton<Env>(env)
     ..registerLazySingleton<http.Client>(http.Client.new)
     ..registerLazySingleton<ApiClient>(
-      () => ApiClient(
-        getIt(),
-        baseUrl: env.baseUrl,
-        timeout: env.requestTimeout,
-      ),
+      () =>
+          ApiClient(getIt(), baseUrl: env.baseUrl, timeout: env.requestTimeout),
     )
     // Domínio (serviços puros)
     ..registerLazySingleton<TagCodec>(TagCodec.new)
@@ -70,11 +67,8 @@ void setupInjector(Env env) {
       () => PlantRepositoryImpl(getIt()),
     )
     ..registerLazySingleton<ILiveDataRepository>(
-      () => LiveDataRepositoryImpl(
-        getIt(),
-        getIt(),
-        interval: env.liveInterval,
-      ),
+      () =>
+          LiveDataRepositoryImpl(getIt(), getIt(), interval: env.liveInterval),
     )
     ..registerLazySingleton<IAlarmRepository>(
       () => AlarmRepositoryImpl(getIt(), getIt()),
@@ -131,11 +125,7 @@ void setupInjector(Env env) {
       () => AlarmsViewModel(getIt(), getIt(), getIt()),
     )
     ..registerFactory<ExplorerViewModel>(
-      () => ExplorerViewModel(
-        getIt(),
-        getIt(),
-        defaultSlave: env.defaultSlave,
-      ),
+      () => ExplorerViewModel(getIt(), getIt(), defaultSlave: env.defaultSlave),
     )
     ..registerFactory<GatewayViewModel>(
       () => GatewayViewModel(getIt(), getIt()),

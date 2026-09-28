@@ -1,0 +1,45 @@
+{
+  // Aba "Run and Debug" (⇧⌘D) → escolha a configuração → F5.
+  // O dispositivo é o da barra de status do VS Code (canto inferior direito).
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Dev · gateway real",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/main.dart",
+      "args": ["--dart-define=ENVIRONMENT=dev"]
+    },
+    {
+      "name": "Demo · simulador",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/main.dart",
+      "args": ["--dart-define=ENVIRONMENT=demo"]
+    },
+    {
+      "name": "Demo · simulador no Chrome",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/main.dart",
+      "deviceId": "chrome",
+      "args": ["--dart-define=ENVIRONMENT=demo"]
+    },
+    {
+      "name": "Dev · gateway real (profile)",
+      "request": "launch",
+      "type": "dart",
+      "flutterMode": "profile",
+      "program": "lib/main.dart",
+      "args": ["--dart-define=ENVIRONMENT=dev"]
+    },
+    {
+      "name": "Dev · gateway real (release)",
+      "request": "launch",
+      "type": "dart",
+      "flutterMode": "release",
+      "program": "lib/main.dart",
+      "args": ["--dart-define=ENVIRONMENT=dev"]
+    }
+  ]
+}

@@ -15,7 +15,11 @@ class ExplorerResult extends StatelessWidget {
   final void Function(int address, int value) onRowTap;
 
   /// Cria um [ExplorerResult].
-  const ExplorerResult({super.key, required this.state, required this.onRowTap});
+  const ExplorerResult({
+    super.key,
+    required this.state,
+    required this.onRowTap,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -34,11 +38,16 @@ class ExplorerResult extends StatelessWidget {
           padding: EdgeInsets.symmetric(vertical: context.spacing.xl),
           child: Column(
             children: [
-              Icon(Icons.manage_search_rounded,
-                  size: 36, color: context.colors.textMuted),
+              Icon(
+                Icons.manage_search_rounded,
+                size: 36,
+                color: context.colors.textMuted,
+              ),
               SizedBox(height: context.spacing.md),
               Text(
-                state.isBusy ? 'Lendo do barramento…' : 'Escolha a faixa e toque em Ler.',
+                state.isBusy
+                    ? 'Lendo do barramento…'
+                    : 'Escolha a faixa e toque em Ler.',
                 style: context.text.bodyMedium,
               ),
             ],
@@ -76,7 +85,10 @@ class ExplorerResult extends StatelessWidget {
                     tone: DsTone.low,
                   ),
                 if (state.isBusy)
-                  const DsBadge(label: 'atualizando…', icon: Icons.sync_rounded),
+                  const DsBadge(
+                    label: 'atualizando…',
+                    icon: Icons.sync_rounded,
+                  ),
               ],
             ),
           ),
@@ -134,8 +146,14 @@ class _RegisterRow extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('$address', style: mono.copyWith(fontWeight: FontWeight.w700)),
-                  Text(legacy, style: mono.copyWith(fontSize: 11, color: c.textMuted)),
+                  Text(
+                    '$address',
+                    style: mono.copyWith(fontWeight: FontWeight.w700),
+                  ),
+                  Text(
+                    legacy,
+                    style: mono.copyWith(fontSize: 11, color: c.textMuted),
+                  ),
                 ],
               ),
             ),
@@ -153,16 +171,34 @@ class _RegisterRow extends StatelessWidget {
                       children: [
                         Row(
                           children: [
-                            Text('$value', style: mono.copyWith(fontSize: 17, fontWeight: FontWeight.w600)),
+                            Text(
+                              '$value',
+                              style: mono.copyWith(
+                                fontSize: 17,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
                             SizedBox(width: s.md),
-                            Text(Formatters.hex(value), style: mono.copyWith(color: c.textSecondary)),
+                            Text(
+                              Formatters.hex(value),
+                              style: mono.copyWith(color: c.textSecondary),
+                            ),
                             SizedBox(width: s.md),
-                            Text('${value.toSigned(16)}', style: mono.copyWith(fontSize: 11, color: c.textMuted)),
+                            Text(
+                              '${value.toSigned(16)}',
+                              style: mono.copyWith(
+                                fontSize: 11,
+                                color: c.textMuted,
+                              ),
+                            ),
                           ],
                         ),
                         Text(
                           Formatters.binary(value),
-                          style: mono.copyWith(fontSize: 11, color: c.textMuted),
+                          style: mono.copyWith(
+                            fontSize: 11,
+                            color: c.textMuted,
+                          ),
                         ),
                       ],
                     ),
@@ -206,7 +242,10 @@ class _FailureInline extends StatelessWidget {
               if (hint != null || latency != null) ...[
                 SizedBox(height: context.spacing.sm),
                 Text(
-                  [?hint, if (latency != null) '${latency!.inMilliseconds} ms'].join(' · '),
+                  [
+                    ?hint,
+                    if (latency != null) '${latency!.inMilliseconds} ms',
+                  ].join(' · '),
                   style: context.ds.mono.copyWith(
                     fontSize: 11,
                     color: context.colors.textMuted,
@@ -251,7 +290,10 @@ class ExplorerLog extends StatelessWidget {
                     color: entry.ok ? c.success : c.alarmCritical,
                   ),
                   SizedBox(width: context.spacing.sm),
-                  Text(Formatters.time(entry.at), style: mono.copyWith(color: c.textMuted)),
+                  Text(
+                    Formatters.time(entry.at),
+                    style: mono.copyWith(color: c.textMuted),
+                  ),
                   SizedBox(width: context.spacing.sm),
                   Expanded(
                     child: Text(
@@ -262,7 +304,10 @@ class ExplorerLog extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),
-                  Text('${entry.latency.inMilliseconds} ms', style: mono.copyWith(color: c.textSecondary)),
+                  Text(
+                    '${entry.latency.inMilliseconds} ms',
+                    style: mono.copyWith(color: c.textSecondary),
+                  ),
                 ],
               ),
             ),
@@ -280,7 +325,8 @@ Future<int?> showRegisterWriteDialog(
 }) {
   return showDialog<int>(
     context: context,
-    builder: (context) => _RegisterWriteDialog(address: address, current: current),
+    builder: (context) =>
+        _RegisterWriteDialog(address: address, current: current),
   );
 }
 
@@ -355,7 +401,9 @@ class _RegisterWriteDialogState extends State<_RegisterWriteDialog> {
           child: const Text('Cancelar'),
         ),
         FilledButton(
-          onPressed: _parsed == null ? null : () => Navigator.of(context).pop(_parsed),
+          onPressed: _parsed == null
+              ? null
+              : () => Navigator.of(context).pop(_parsed),
           child: const Text('Escrever'),
         ),
       ],

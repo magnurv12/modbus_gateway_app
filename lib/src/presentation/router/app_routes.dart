@@ -29,7 +29,7 @@ abstract final class AppRoutes {
 extension AppNavigation on BuildContext {
   /// Abre o detalhe do equipamento [equipmentId].
   void goToEquipment(String equipmentId) => goNamed(
-        AppRoutes.equipment,
-        pathParameters: {AppRoutes.equipmentIdParam: equipmentId},
-      );
+    AppRoutes.equipment,
+    pathParameters: {AppRoutes.equipmentIdParam: equipmentId},
+  );
 }

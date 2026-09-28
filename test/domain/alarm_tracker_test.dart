@@ -88,8 +88,14 @@ void main() {
   test('histerese: não normaliza dentro da banda morta', () {
     final tracker = AlarmTracker()..update(plant, live(levelValue: 92), t0);
     // banda = 1% de 0..100 → normaliza apenas abaixo de 89
-    expect(tracker.update(plant, live(levelValue: 89.5), t0).single.active, isTrue);
-    expect(tracker.update(plant, live(levelValue: 88.5), t0).single.active, isFalse);
+    expect(
+      tracker.update(plant, live(levelValue: 89.5), t0).single.active,
+      isTrue,
+    );
+    expect(
+      tracker.update(plant, live(levelValue: 88.5), t0).single.active,
+      isFalse,
+    );
   });
 
   test('normalizado sem reconhecimento permanece na lista (ISA-18.2)', () {

@@ -50,7 +50,8 @@ class ReadModbusBlockUseCase implements IReadModbusBlockUseCase {
     required int count,
     int? slave,
   }) async {
-    final error = validateRange(table, start, count, table.maxReadCount) ??
+    final error =
+        validateRange(table, start, count, table.maxReadCount) ??
         validateSlave(slave);
     if (error != null) return Left(error);
 
@@ -90,12 +91,8 @@ class WriteModbusValuesUseCase implements IWriteModbusValuesUseCase {
   }) async {
     if (!table.isWritable) return const Left(Failure.readOnly());
 
-    final error = validateRange(
-          table,
-          start,
-          values.length,
-          ModbusTable.maxWriteCount,
-        ) ??
+    final error =
+        validateRange(table, start, values.length, ModbusTable.maxWriteCount) ??
         validateSlave(slave) ??
         _validateValues(table, values);
     if (error != null) return Left(error);
@@ -124,7 +121,9 @@ class WriteModbusValuesUseCase implements IWriteModbusValuesUseCase {
 /// Valida faixa de endereços segundo os limites do gateway.
 Failure? validateRange(ModbusTable table, int start, int count, int maxCount) {
   if (start < 0 || start > ModbusTable.maxAddress) {
-    return const Failure.validation('Endereço inicial deve estar entre 0 e 65535.');
+    return const Failure.validation(
+      'Endereço inicial deve estar entre 0 e 65535.',
+    );
   }
   if (count < 1 || count > maxCount) {
     return Failure.validation('Quantidade deve estar entre 1 e $maxCount.');

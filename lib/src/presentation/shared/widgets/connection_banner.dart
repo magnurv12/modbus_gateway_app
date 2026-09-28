@@ -108,8 +108,9 @@ class _ConnectionBannerState extends State<ConnectionBanner> {
                           children: [
                             Text(
                               failure?.title ?? 'Reconectando…',
-                              style: context.text.labelLarge
-                                  ?.copyWith(color: c.textPrimary),
+                              style: context.text.labelLarge?.copyWith(
+                                color: c.textPrimary,
+                              ),
                             ),
                             Text(
                               retryIn != null && retryIn > 0

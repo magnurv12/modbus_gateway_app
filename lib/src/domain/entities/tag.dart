@@ -94,11 +94,11 @@ abstract class TagDefinition with _$TagDefinition {
 
   /// Papel da tag, derivado da tabela.
   TagRole get role => switch (table) {
-        ModbusTable.input => TagRole.measurement,
-        ModbusTable.discrete => TagRole.status,
-        ModbusTable.coils => TagRole.command,
-        ModbusTable.holding => TagRole.setpoint,
-      };
+    ModbusTable.input => TagRole.measurement,
+    ModbusTable.discrete => TagRole.status,
+    ModbusTable.coils => TagRole.command,
+    ModbusTable.holding => TagRole.setpoint,
+  };
 
   /// `true` para tags de 1 bit.
   bool get isBoolean => table.isBit;

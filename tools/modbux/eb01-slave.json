@@ -1,0 +1,178 @@
+{
+  "version": 2,
+  "modbuxVersion": "2.3.0",
+  "name": "EB-01",
+  "littleEndian": false,
+  "serverRegistersPerUnit": {
+    "1": {
+      "coils": {
+        "0": {
+          "value": false
+        },
+        "1": {
+          "value": true
+        },
+        "2": {
+          "value": true
+        },
+        "3": {
+          "value": false
+        }
+      },
+      "discrete_inputs": {
+        "0": {
+          "value": false
+        },
+        "1": {
+          "value": false
+        },
+        "2": {
+          "value": false
+        },
+        "3": {
+          "value": false
+        },
+        "4": {
+          "value": false
+        },
+        "5": {
+          "value": false
+        }
+      },
+      "input_registers": {
+        "0": {
+          "value": 555,
+          "params": {
+            "address": 0,
+            "dataType": "uint16",
+            "comment": "Nivel TQ-01 (x0,1 %)",
+            "registerType": "input_registers",
+            "value": 555
+          }
+        },
+        "1": {
+          "value": 10,
+          "params": {
+            "address": 1,
+            "dataType": "uint16",
+            "comment": "Pressao de recalque (x0,01 bar)",
+            "registerType": "input_registers",
+            "value": 10
+          }
+        },
+        "2": {
+          "value": 0,
+          "params": {
+            "address": 2,
+            "dataType": "uint16",
+            "comment": "Vazao (x0,1 m3/h)",
+            "registerType": "input_registers",
+            "value": 0
+          }
+        },
+        "3": {
+          "value": 320,
+          "params": {
+            "address": 3,
+            "dataType": "uint16",
+            "comment": "Temperatura do motor (x0,1 C)",
+            "registerType": "input_registers",
+            "value": 320
+          }
+        },
+        "4": {
+          "value": 0,
+          "params": {
+            "address": 4,
+            "dataType": "uint16",
+            "comment": "Corrente do motor (x0,1 A)",
+            "registerType": "input_registers",
+            "value": 0
+          }
+        },
+        "5": {
+          "value": 0,
+          "params": {
+            "address": 5,
+            "dataType": "uint16",
+            "comment": "Frequencia (x0,1 Hz)",
+            "registerType": "input_registers",
+            "value": 0
+          }
+        },
+        "6": {
+          "value": 18,
+          "params": {
+            "address": 6,
+            "dataType": "uint16",
+            "comment": "Energia uint32 - palavra ALTA (x0,1 kWh)",
+            "registerType": "input_registers",
+            "value": 18
+          }
+        },
+        "7": {
+          "value": 54919,
+          "params": {
+            "address": 7,
+            "dataType": "uint16",
+            "comment": "Energia uint32 - palavra BAIXA",
+            "registerType": "input_registers",
+            "value": 54919
+          }
+        },
+        "8": {
+          "value": 0,
+          "params": {
+            "address": 8,
+            "dataType": "uint16",
+            "comment": "Potencia ativa (x0,1 kW)",
+            "registerType": "input_registers",
+            "value": 0
+          }
+        }
+      },
+      "holding_registers": {
+        "0": {
+          "value": 450,
+          "params": {
+            "address": 0,
+            "dataType": "uint16",
+            "comment": "Setpoint de frequencia (x0,1 Hz)",
+            "registerType": "holding_registers",
+            "value": 450
+          }
+        },
+        "1": {
+          "value": 850,
+          "params": {
+            "address": 1,
+            "dataType": "uint16",
+            "comment": "Nivel para ligar a bomba - auto (x0,1 %)",
+            "registerType": "holding_registers",
+            "value": 850
+          }
+        },
+        "2": {
+          "value": 250,
+          "params": {
+            "address": 2,
+            "dataType": "uint16",
+            "comment": "Nivel para desligar a bomba - auto (x0,1 %)",
+            "registerType": "holding_registers",
+            "value": 250
+          }
+        },
+        "3": {
+          "value": 5,
+          "params": {
+            "address": 3,
+            "dataType": "uint16",
+            "comment": "Rampa de aceleracao (s)",
+            "registerType": "holding_registers",
+            "value": 5
+          }
+        }
+      }
+    }
+  }
+}

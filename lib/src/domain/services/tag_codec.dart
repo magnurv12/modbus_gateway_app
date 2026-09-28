@@ -34,8 +34,9 @@ class TagCodec {
       case TagDataType.uint32 || TagDataType.int32 || TagDataType.float32:
         final second = rawAt(tag.address + 1);
         if (second == null) return null;
-        final (hi, lo) =
-            tag.wordOrder == WordOrder.big ? (first, second) : (second, first);
+        final (hi, lo) = tag.wordOrder == WordOrder.big
+            ? (first, second)
+            : (second, first);
         // Aritmética em vez de shift: no Web os operadores bit a bit são
         // de 32 bits com sinal e corromperiam valores acima de 2^31.
         final word = (hi % 0x10000) * 0x10000 + (lo % 0x10000);
@@ -65,7 +66,9 @@ class TagCodec {
 
       case NumberTagValue(:final value):
         if (tag.isBoolean) {
-          return const Left(Failure.validation('Esta tag espera ligado/desligado.'));
+          return const Left(
+            Failure.validation('Esta tag espera ligado/desligado.'),
+          );
         }
         if (!value.isFinite) {
           return const Left(Failure.validation('Valor inválido.'));
@@ -73,10 +76,12 @@ class TagCodec {
         final min = tag.min;
         final max = tag.max;
         if ((min != null && value < min) || (max != null && value > max)) {
-          return Left(Failure.validation(
-            'Valor fora da faixa permitida (${min ?? '-∞'} a ${max ?? '+∞'} ${tag.unit}).'
-                .trim(),
-          ));
+          return Left(
+            Failure.validation(
+              'Valor fora da faixa permitida (${min ?? '-∞'} a ${max ?? '+∞'} ${tag.unit}).'
+                  .trim(),
+            ),
+          );
         }
         if (tag.scale == 0) {
           return const Left(Failure.configuration('Tag com escala zero.'));
@@ -105,15 +110,25 @@ class TagCodec {
     final rounded = raw.round();
     return switch (tag.dataType) {
       TagDataType.uint16 => checked(rounded, 0, 0xFFFF).map((v) => [v]),
-      TagDataType.int16 => checked(rounded, -0x8000, 0x7FFF)
-          .map((v) => [v < 0 ? v + 0x10000 : v]),
-      TagDataType.uint32 =>
-        checked(rounded, 0, 0xFFFFFFFF).map((v) => split32(v)),
-      TagDataType.int32 =>
-        checked(rounded, -0x80000000, 0x7FFFFFFF).map((v) => split32(v)),
+      TagDataType.int16 => checked(
+        rounded,
+        -0x8000,
+        0x7FFF,
+      ).map((v) => [v < 0 ? v + 0x10000 : v]),
+      TagDataType.uint32 => checked(
+        rounded,
+        0,
+        0xFFFFFFFF,
+      ).map((v) => split32(v)),
+      TagDataType.int32 => checked(
+        rounded,
+        -0x80000000,
+        0x7FFFFFFF,
+      ).map((v) => split32(v)),
       TagDataType.float32 => Right(split32(_floatToBits(raw))),
-      TagDataType.boolean =>
-        const Left(Failure.validation('Esta tag espera ligado/desligado.')),
+      TagDataType.boolean => const Left(
+        Failure.validation('Esta tag espera ligado/desligado.'),
+      ),
     };
   }
 

@@ -14,7 +14,7 @@ class AlarmsViewModel extends ViewModel<AlarmsState> {
 
   /// Cria um [AlarmsViewModel].
   AlarmsViewModel(this._getPlant, this._watchAlarms, this._acknowledge)
-      : super(const AlarmsState.loading());
+    : super(const AlarmsState.loading());
 
   @override
   void initViewModel() {
@@ -33,9 +33,11 @@ class AlarmsViewModel extends ViewModel<AlarmsState> {
     await _subscription?.cancel();
     _subscription = _watchAlarms(result.right).listen((alarms) {
       final current = state;
-      emit(current is AlarmsStateLoaded
-          ? current.copyWith(all: alarms)
-          : AlarmsState.loaded(all: alarms));
+      emit(
+        current is AlarmsStateLoaded
+            ? current.copyWith(all: alarms)
+            : AlarmsState.loaded(all: alarms),
+      );
     });
   }
 

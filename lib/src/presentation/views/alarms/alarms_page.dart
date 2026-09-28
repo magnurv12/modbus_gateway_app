@@ -39,12 +39,14 @@ class _AlarmsPageState extends ViewState<AlarmsPage, AlarmsViewModel> {
           ),
           body: switch (state) {
             AlarmsStateLoading() => const DsLoadingView(),
-            AlarmsStateError(:final failure) =>
-              FailureView(failure: failure, onRetry: viewModel.load),
+            AlarmsStateError(:final failure) => FailureView(
+              failure: failure,
+              onRetry: viewModel.load,
+            ),
             final AlarmsStateLoaded loaded => _Loaded(
-                state: loaded,
-                viewModel: viewModel,
-              ),
+              state: loaded,
+              viewModel: viewModel,
+            ),
           },
         );
       },
@@ -101,10 +103,12 @@ class _Loaded extends StatelessWidget {
             child: DsMessageView(
               icon: Icons.verified_outlined,
               tone: DsTone.success,
-              title: state.all.isEmpty ? 'Planta sem alarmes' : 'Nada neste filtro',
+              title: state.all.isEmpty
+                  ? 'Planta sem alarmes'
+                  : 'Nada neste filtro',
               message: state.all.isEmpty
                   ? 'Todas as variáveis estão dentro dos limites configurados '
-                      'no mapa de tags.'
+                        'no mapa de tags.'
                   : 'Troque o filtro para ver os demais alarmes.',
             ),
           )

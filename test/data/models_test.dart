@@ -82,9 +82,11 @@ void main() {
       expect(snapshot, isA<WsSnapshot>());
       expect((snapshot as WsSnapshot).values, [40, 7, 96]);
 
-      final update = WsMessage.tryParse(
-        '{"type":"update","id":"m","changes":[[3,53]],"ts":81434}',
-      ) as WsUpdate;
+      final update =
+          WsMessage.tryParse(
+                '{"type":"update","id":"m","changes":[[3,53]],"ts":81434}',
+              )
+              as WsUpdate;
       expect(update.changes.single, (address: 3, value: 53));
     });
 
@@ -99,7 +101,12 @@ void main() {
       final source = File('assets/plant/plant.yaml').readAsStringSync();
       final plant = PlantParser.parse(source);
 
-      expect(plant.equipments.map((e) => e.id), ['tq01', 'p101', 'xv101', 'qgbt01']);
+      expect(plant.equipments.map((e) => e.id), [
+        'tq01',
+        'p101',
+        'xv101',
+        'qgbt01',
+      ]);
       final energy = plant.allTags.firstWhere((t) => t.id == 'qg_energy');
       expect(energy.dataType, TagDataType.uint32);
       expect(energy.registerCount, 2);
@@ -123,11 +130,13 @@ plant:
 ''';
       expect(
         () => PlantParser.parse(yaml),
-        throwsA(isA<PlantConfigException>().having(
-          (e) => e.path,
-          'path',
-          'equipments[0].tags[0].table',
-        )),
+        throwsA(
+          isA<PlantConfigException>().having(
+            (e) => e.path,
+            'path',
+            'equipments[0].tags[0].table',
+          ),
+        ),
       );
     });
 
@@ -139,7 +148,10 @@ plant:
     - {id: a, tag: A, name: A, tags: [{id: t, name: T, table: input, address: 0}]}
     - {id: b, tag: B, name: B, tags: [{id: t, name: T, table: input, address: 1}]}
 ''';
-      expect(() => PlantParser.parse(duplicated), throwsA(isA<PlantConfigException>()));
+      expect(
+        () => PlantParser.parse(duplicated),
+        throwsA(isA<PlantConfigException>()),
+      );
 
       const wrongAlarm = '''
 plant:
@@ -155,7 +167,10 @@ plant:
           address: 0
           alarms: [{when: above, limit: 1, severity: high, message: M}]
 ''';
-      expect(() => PlantParser.parse(wrongAlarm), throwsA(isA<PlantConfigException>()));
+      expect(
+        () => PlantParser.parse(wrongAlarm),
+        throwsA(isA<PlantConfigException>()),
+      );
     });
   });
 

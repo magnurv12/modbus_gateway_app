@@ -154,7 +154,10 @@ class DsTankIndicator extends StatelessWidget {
                   top: Radius.circular(10),
                   bottom: Radius.circular(16),
                 ),
-                border: Border.all(color: alarmColor ?? c.borderStrong, width: 1.5),
+                border: Border.all(
+                  color: alarmColor ?? c.borderStrong,
+                  width: 1.5,
+                ),
               ),
               clipBehavior: Clip.antiAlias,
               child: Align(
@@ -246,11 +249,8 @@ class DsMeterBar extends StatelessWidget {
         tween: Tween(end: fraction.clamp(0.0, 1.0)),
         duration: context.motion.slow,
         curve: context.motion.curve,
-        builder: (context, v, _) => LinearProgressIndicator(
-          value: v,
-          minHeight: 6,
-          color: color,
-        ),
+        builder: (context, v, _) =>
+            LinearProgressIndicator(value: v, minHeight: 6, color: color),
       ),
     );
   }

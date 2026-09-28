@@ -87,9 +87,12 @@ class DsSectionHeader extends StatelessWidget {
           Text(title.toUpperCase(), style: context.ds.overline),
           if (caption != null) ...[
             SizedBox(width: context.spacing.sm),
-            Text(caption!, style: context.ds.overline.copyWith(
-              color: context.colors.textSecondary,
-            )),
+            Text(
+              caption!,
+              style: context.ds.overline.copyWith(
+                color: context.colors.textSecondary,
+              ),
+            ),
           ],
           const Spacer(),
           ?trailing,

@@ -39,14 +39,14 @@ class LiveSubscription {
 
   /// Mensagem JSON do protocolo.
   Map<String, Object> toJson() => {
-        'op': 'subscribe',
-        'id': id,
-        'table': table.path,
-        'start': start,
-        'count': count,
-        'intervalMs': interval.inMilliseconds,
-        'slave': ?slave,
-      };
+    'op': 'subscribe',
+    'id': id,
+    'table': table.path,
+    'start': start,
+    'count': count,
+    'intervalMs': interval.inMilliseconds,
+    'slave': ?slave,
+  };
 }
 
 /// Conexão de streaming com o gateway.
@@ -67,7 +67,7 @@ class RemoteLiveStreamDataSource implements ILiveStreamDataSource {
 
   /// Cria um [RemoteLiveStreamDataSource].
   RemoteLiveStreamDataSource(this._url, {required Duration connectTimeout})
-      : _connectTimeout = connectTimeout;
+    : _connectTimeout = connectTimeout;
 
   @override
   Stream<WsMessage> connect() {
@@ -150,10 +150,9 @@ class SimulatedLiveStreamDataSource implements ILiveStreamDataSource {
     if (controller == null || controller.isClosed) return;
 
     _timers.remove(s.id)?.cancel();
-    controller.add(WsSubscribed(
-      id: s.id,
-      effectiveIntervalMs: s.interval.inMilliseconds,
-    ));
+    controller.add(
+      WsSubscribed(id: s.id, effectiveIntervalMs: s.interval.inMilliseconds),
+    );
 
     List<int>? last;
     void poll() {
@@ -162,24 +161,27 @@ class SimulatedLiveStreamDataSource implements ILiveStreamDataSource {
       try {
         values = _simulator.read(s.table, s.start, s.count);
       } catch (_) {
-        controller.add(WsError(id: s.id, raw: {
-          'type': 'error',
-          'id': s.id,
-          'error': 'illegal_address',
-          'message': 'Faixa fora do mapa do escravo simulado',
-          'modbusCode': 2,
-          'modbusError': 'IllegalDataAddress',
-        }));
+        controller.add(
+          WsError(
+            id: s.id,
+            raw: {
+              'type': 'error',
+              'id': s.id,
+              'error': 'illegal_address',
+              'message': 'Faixa fora do mapa do escravo simulado',
+              'modbusCode': 2,
+              'modbusError': 'IllegalDataAddress',
+            },
+          ),
+        );
         return;
       }
       final previous = last;
       last = values;
       if (previous == null) {
-        controller.add(WsSnapshot(
-          id: s.id,
-          startAddress: s.start,
-          values: values,
-        ));
+        controller.add(
+          WsSnapshot(id: s.id, startAddress: s.start, values: values),
+        );
         return;
       }
       final changes = [

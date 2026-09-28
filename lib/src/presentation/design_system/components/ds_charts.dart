@@ -177,7 +177,11 @@ class DsTrendChart extends StatelessWidget {
         ),
         if (caption.isNotEmpty) ...[
           SizedBox(height: context.spacing.xs),
-          Text(caption, style: context.text.bodySmall, textAlign: TextAlign.end),
+          Text(
+            caption,
+            style: context.text.bodySmall,
+            textAlign: TextAlign.end,
+          ),
         ],
       ],
     );
@@ -227,7 +231,12 @@ class _TrendPainter extends CustomPainter {
       if (maxY == null) hi += pad;
     }
 
-    final plot = Rect.fromLTWH(_axisWidth, 4, size.width - _axisWidth, size.height - 8);
+    final plot = Rect.fromLTWH(
+      _axisWidth,
+      4,
+      size.width - _axisWidth,
+      size.height - 8,
+    );
     double yOf(double v) => plot.bottom - (v - lo) / (hi - lo) * plot.height;
 
     // Grade + eixo Y.
@@ -248,7 +257,11 @@ class _TrendPainter extends CustomPainter {
         ..color = limit.color.withValues(alpha: 0.8)
         ..strokeWidth = 1.2;
       for (var x = plot.left; x < plot.right; x += 8) {
-        canvas.drawLine(Offset(x, y), Offset(math.min(x + 4, plot.right), y), paint);
+        canvas.drawLine(
+          Offset(x, y),
+          Offset(math.min(x + 4, plot.right), y),
+          paint,
+        );
       }
       _text(
         canvas,
@@ -305,9 +318,18 @@ class _TrendPainter extends CustomPainter {
     canvas.drawCircle(last, 3.5, Paint()..color = line);
   }
 
-  void _text(Canvas canvas, String text, Offset at, double width, {Color? color}) {
+  void _text(
+    Canvas canvas,
+    String text,
+    Offset at,
+    double width, {
+    Color? color,
+  }) {
     final painter = TextPainter(
-      text: TextSpan(text: text, style: color == null ? label : label.copyWith(color: color)),
+      text: TextSpan(
+        text: text,
+        style: color == null ? label : label.copyWith(color: color),
+      ),
       textDirection: TextDirection.ltr,
       textAlign: TextAlign.right,
       maxLines: 1,

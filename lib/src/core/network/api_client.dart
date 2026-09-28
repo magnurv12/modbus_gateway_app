@@ -17,8 +17,8 @@ class ApiClient {
 
   /// Cria um [ApiClient].
   ApiClient(this._client, {required Uri baseUrl, required Duration timeout})
-      : _baseUrl = baseUrl,
-        _timeout = timeout;
+    : _baseUrl = baseUrl,
+      _timeout = timeout;
 
   static const _jsonHeaders = {
     'Accept': 'application/json',
@@ -26,10 +26,7 @@ class ApiClient {
   };
 
   /// `GET` em [path] com [query] opcional.
-  Future<Map<String, dynamic>> get(
-    String path, {
-    Map<String, String>? query,
-  }) {
+  Future<Map<String, dynamic>> get(String path, {Map<String, String>? query}) {
     final uri = _baseUrl.replace(path: path, queryParameters: query);
     return _send(() => _client.get(uri, headers: _jsonHeaders));
   }

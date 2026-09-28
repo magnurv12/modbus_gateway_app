@@ -69,13 +69,13 @@ enum DsTone {
 extension DsToneColor on DsTone {
   /// Cor principal do tom na paleta [c].
   Color color(DsColors c) => switch (this) {
-        DsTone.neutral => c.textSecondary,
-        DsTone.accent => c.accent,
-        DsTone.success => c.success,
-        DsTone.critical => c.alarmCritical,
-        DsTone.high => c.alarmHigh,
-        DsTone.medium => c.alarmMedium,
-        DsTone.low => c.alarmLow,
-        DsTone.badQuality => c.badQuality,
-      };
+    DsTone.neutral => c.textSecondary,
+    DsTone.accent => c.accent,
+    DsTone.success => c.success,
+    DsTone.critical => c.alarmCritical,
+    DsTone.high => c.alarmHigh,
+    DsTone.medium => c.alarmMedium,
+    DsTone.low => c.alarmLow,
+    DsTone.badQuality => c.badQuality,
+  };
 }

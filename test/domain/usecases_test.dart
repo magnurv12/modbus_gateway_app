@@ -20,12 +20,14 @@ void main() {
 
   setUp(() {
     repository = _MockGatewayRepository();
-    when(() => repository.write(
-          table: any(named: 'table'),
-          start: any(named: 'start'),
-          values: any(named: 'values'),
-          slave: any(named: 'slave'),
-        )).thenAnswer((_) async => const Right(block));
+    when(
+      () => repository.write(
+        table: any(named: 'table'),
+        start: any(named: 'start'),
+        values: any(named: 'values'),
+        slave: any(named: 'slave'),
+      ),
+    ).thenAnswer((_) async => const Right(block));
   });
 
   group('ReadModbusBlockUseCase', () {
@@ -52,12 +54,14 @@ void main() {
       expect(tooMany.left, isA<ValidationFailure>());
       expect(overflow.left, isA<ValidationFailure>());
       expect(badSlave.left, isA<ValidationFailure>());
-      verifyNever(() => repository.read(
-            table: any(named: 'table'),
-            start: any(named: 'start'),
-            count: any(named: 'count'),
-            slave: any(named: 'slave'),
-          ));
+      verifyNever(
+        () => repository.read(
+          table: any(named: 'table'),
+          start: any(named: 'start'),
+          count: any(named: 'count'),
+          slave: any(named: 'slave'),
+        ),
+      );
     });
   });
 
@@ -78,12 +82,14 @@ void main() {
       final result = await useCase(setpoint, const TagValue.number(45));
 
       expect(result.isRight, isTrue);
-      verify(() => repository.write(
-            table: ModbusTable.holding,
-            start: 3,
-            values: [450],
-            slave: null,
-          )).called(1);
+      verify(
+        () => repository.write(
+          table: ModbusTable.holding,
+          start: 3,
+          values: [450],
+          slave: null,
+        ),
+      ).called(1);
     });
 
     test('não escreve valor fora da faixa', () async {
@@ -117,27 +123,29 @@ void main() {
       expect(result.isRight, isTrue);
       verifyInOrder([
         () => repository.write(
-              table: ModbusTable.coils,
-              start: 3,
-              values: [1],
-              slave: null,
-            ),
+          table: ModbusTable.coils,
+          start: 3,
+          values: [1],
+          slave: null,
+        ),
         () => repository.write(
-              table: ModbusTable.coils,
-              start: 3,
-              values: [0],
-              slave: null,
-            ),
+          table: ModbusTable.coils,
+          start: 3,
+          values: [0],
+          slave: null,
+        ),
       ]);
     });
 
     test('não envia o "false" se o "true" falhou', () async {
-      when(() => repository.write(
-            table: any(named: 'table'),
-            start: any(named: 'start'),
-            values: [1],
-            slave: any(named: 'slave'),
-          )).thenAnswer((_) async => const Left(Failure.slaveTimeout()));
+      when(
+        () => repository.write(
+          table: any(named: 'table'),
+          start: any(named: 'start'),
+          values: [1],
+          slave: any(named: 'slave'),
+        ),
+      ).thenAnswer((_) async => const Left(Failure.slaveTimeout()));
       final useCase = PulseTagUseCase(
         WriteTagUseCase(repository, const TagCodec()),
         pulseWidth: Duration.zero,
@@ -146,12 +154,14 @@ void main() {
       final result = await useCase(reset);
 
       expect(result.left, isA<SlaveTimeoutFailure>());
-      verifyNever(() => repository.write(
-            table: any(named: 'table'),
-            start: any(named: 'start'),
-            values: [0],
-            slave: any(named: 'slave'),
-          ));
+      verifyNever(
+        () => repository.write(
+          table: any(named: 'table'),
+          start: any(named: 'start'),
+          values: [0],
+          slave: any(named: 'slave'),
+        ),
+      );
     });
   });
 }

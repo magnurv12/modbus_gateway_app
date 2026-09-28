@@ -42,7 +42,8 @@ class EquipmentCard extends StatelessWidget {
           Row(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              if (equipment.type == EquipmentType.tank && primary.isNotEmpty) ...[
+              if (equipment.type == EquipmentType.tank &&
+                  primary.isNotEmpty) ...[
                 _MiniTank(tag: primary.first, live: live, alarm: alarmColor),
                 SizedBox(width: s.lg),
               ],
@@ -87,22 +88,26 @@ class _Header extends StatelessWidget {
 
     final badge = switch (summary.condition) {
       EquipmentCondition.alarm => DsBadge(
-          label: summary.pendingAlarms == 1
-              ? '1 alarme'
-              : '${summary.pendingAlarms} alarmes',
-          tone: summary.worstAlarm!.tone,
-          icon: summary.worstAlarm!.icon,
-          filled: summary.worstAlarm == AlarmSeverity.critical,
-        ),
+        label: summary.pendingAlarms == 1
+            ? '1 alarme'
+            : '${summary.pendingAlarms} alarmes',
+        tone: summary.worstAlarm!.tone,
+        icon: summary.worstAlarm!.icon,
+        filled: summary.worstAlarm == AlarmSeverity.critical,
+      ),
       EquipmentCondition.communication => const DsBadge(
-          label: 'Sem comunicação',
-          tone: DsTone.badQuality,
-          icon: Icons.link_off_rounded,
-        ),
-      EquipmentCondition.waiting =>
-        const DsBadge(label: 'Aguardando', icon: Icons.hourglass_empty_rounded),
-      EquipmentCondition.normal =>
-        const DsBadge(label: 'Normal', icon: Icons.check_rounded),
+        label: 'Sem comunicação',
+        tone: DsTone.badQuality,
+        icon: Icons.link_off_rounded,
+      ),
+      EquipmentCondition.waiting => const DsBadge(
+        label: 'Aguardando',
+        icon: Icons.hourglass_empty_rounded,
+      ),
+      EquipmentCondition.normal => const DsBadge(
+        label: 'Normal',
+        icon: Icons.check_rounded,
+      ),
     };
 
     return Row(
@@ -165,7 +170,9 @@ class _PrimaryValue extends StatelessWidget {
             ? null
             : DsSparkline(
                 values: [
-                  for (final p in trend.skip(trend.length > 60 ? trend.length - 60 : 0))
+                  for (final p in trend.skip(
+                    trend.length > 60 ? trend.length - 60 : 0,
+                  ))
                     p.value,
                 ],
               ),
@@ -216,8 +223,8 @@ class _StateFooter extends StatelessWidget {
             color: on == null
                 ? Colors.transparent
                 : on
-                    ? c.running
-                    : c.stopped,
+                ? c.running
+                : c.stopped,
             border: Border.all(color: c.borderStrong),
           ),
         ),

@@ -21,10 +21,10 @@ class GatewayRepositoryImpl implements IGatewayRepository {
     required int start,
     required int count,
     int? slave,
-  }) =>
-      _guard(() async =>
-          (await _dataSource.read(table, start, count, slave: slave))
-              .toEntity());
+  }) => _guard(
+    () async =>
+        (await _dataSource.read(table, start, count, slave: slave)).toEntity(),
+  );
 
   @override
   Future<Either<Failure, ModbusBlock>> write({
@@ -32,10 +32,14 @@ class GatewayRepositoryImpl implements IGatewayRepository {
     required int start,
     required List<int> values,
     int? slave,
-  }) =>
-      _guard(() async =>
-          (await _dataSource.write(table, start, values, slave: slave))
-              .toEntity());
+  }) => _guard(
+    () async => (await _dataSource.write(
+      table,
+      start,
+      values,
+      slave: slave,
+    )).toEntity(),
+  );
 
   Future<Either<Failure, T>> _guard<T>(Future<T> Function() action) async {
     try {

@@ -55,10 +55,10 @@ class LiveDataRepositoryImpl implements ILiveDataRepository {
     Duration trendSampling = const Duration(seconds: 1),
     int trendCapacity = 300,
     DateTime Function()? now,
-  })  : _interval = interval,
-        _trendSampling = trendSampling,
-        _trendCapacity = trendCapacity,
-        _now = now ?? DateTime.now;
+  }) : _interval = interval,
+       _trendSampling = trendSampling,
+       _trendCapacity = trendCapacity,
+       _now = now ?? DateTime.now;
 
   @override
   PlantLiveState get current => _state;
@@ -82,10 +82,11 @@ class LiveDataRepositoryImpl implements ILiveDataRepository {
     } else {
       _teardownConnection();
       _trendTimer?.cancel();
-      _emit(_markAll(TagQuality.stale).copyWith(
-        status: LiveConnectionStatus.paused,
-        nextRetryAt: null,
-      ));
+      _emit(
+        _markAll(
+          TagQuality.stale,
+        ).copyWith(status: LiveConnectionStatus.paused, nextRetryAt: null),
+      );
     }
   }
 
@@ -105,10 +106,12 @@ class LiveDataRepositoryImpl implements ILiveDataRepository {
     try {
       _plans = SubscriptionPlanner.plan(plant.allTags);
     } on StateError catch (e) {
-      _emit(_state.copyWith(
-        status: LiveConnectionStatus.reconnecting,
-        connectionFailure: Failure.configuration(e.message),
-      ));
+      _emit(
+        _state.copyWith(
+          status: LiveConnectionStatus.reconnecting,
+          connectionFailure: Failure.configuration(e.message),
+        ),
+      );
       return;
     }
     if (_active) {
@@ -119,21 +122,23 @@ class LiveDataRepositoryImpl implements ILiveDataRepository {
 
   void _connect() {
     _teardownConnection();
-    _emit(_state.copyWith(
-      status: _attempt == 0
-          ? LiveConnectionStatus.connecting
-          : LiveConnectionStatus.reconnecting,
-      nextRetryAt: null,
-    ));
+    _emit(
+      _state.copyWith(
+        status: _attempt == 0
+            ? LiveConnectionStatus.connecting
+            : LiveConnectionStatus.reconnecting,
+        nextRetryAt: null,
+      ),
+    );
     _connection = _dataSource.connect().listen(
-          _onMessage,
-          onError: (Object error) =>
-              _onDisconnected(FailureMapper.fromException(error)),
-          onDone: () => _onDisconnected(
-            const Failure.gatewayUnreachable(detail: 'Conexão encerrada.'),
-          ),
-          cancelOnError: true,
-        );
+      _onMessage,
+      onError: (Object error) =>
+          _onDisconnected(FailureMapper.fromException(error)),
+      onDone: () => _onDisconnected(
+        const Failure.gatewayUnreachable(detail: 'Conexão encerrada.'),
+      ),
+      cancelOnError: true,
+    );
   }
 
   void _teardownConnection() {
@@ -149,11 +154,13 @@ class LiveDataRepositoryImpl implements ILiveDataRepository {
     if (!_active) return;
     final delay = backoff[_attempt.clamp(0, backoff.length - 1)];
     _attempt++;
-    _emit(_markAll(TagQuality.stale).copyWith(
-      status: LiveConnectionStatus.reconnecting,
-      connectionFailure: failure,
-      nextRetryAt: _now().add(delay),
-    ));
+    _emit(
+      _markAll(TagQuality.stale).copyWith(
+        status: LiveConnectionStatus.reconnecting,
+        connectionFailure: failure,
+        nextRetryAt: _now().add(delay),
+      ),
+    );
     _retryTimer = Timer(delay, _connect);
   }
 
@@ -167,20 +174,24 @@ class LiveDataRepositoryImpl implements ILiveDataRepository {
         _attempt = 0;
         _raw.clear();
         for (final plan in _plans) {
-          _dataSource.subscribe(LiveSubscription(
-            id: plan.id,
-            table: plan.table,
-            slave: plan.slave,
-            start: plan.start,
-            count: plan.count,
-            interval: _interval,
-          ));
+          _dataSource.subscribe(
+            LiveSubscription(
+              id: plan.id,
+              table: plan.table,
+              slave: plan.slave,
+              start: plan.start,
+              count: plan.count,
+              interval: _interval,
+            ),
+          );
         }
-        _emit(_state.copyWith(
-          status: LiveConnectionStatus.online,
-          connectionFailure: null,
-          nextRetryAt: null,
-        ));
+        _emit(
+          _state.copyWith(
+            status: LiveConnectionStatus.online,
+            connectionFailure: null,
+            nextRetryAt: null,
+          ),
+        );
 
       case WsSnapshot(:final id, :final startAddress, :final values):
         _raw[id] = {
@@ -235,7 +246,11 @@ class LiveDataRepositoryImpl implements ILiveDataRepository {
           previous.quality == TagQuality.good) {
         continue;
       }
-      readings[tag.id] = TagReading(tagId: tag.id, value: value, updatedAt: now);
+      readings[tag.id] = TagReading(
+        tagId: tag.id,
+        value: value,
+        updatedAt: now,
+      );
       changed = true;
     }
     if (changed) _emit(_state.copyWith(readings: readings));
@@ -246,10 +261,12 @@ class LiveDataRepositoryImpl implements ILiveDataRepository {
   // ---------------------------------------------------------------------------
 
   PlantLiveState _markAll(TagQuality quality) {
-    return _state.copyWith(readings: {
-      for (final entry in _state.readings.entries)
-        entry.key: entry.value.copyWith(quality: quality),
-    });
+    return _state.copyWith(
+      readings: {
+        for (final entry in _state.readings.entries)
+          entry.key: entry.value.copyWith(quality: quality),
+      },
+    );
   }
 
   PlantLiveState _withQuality(

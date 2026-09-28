@@ -26,20 +26,24 @@ abstract final class FailureMapper {
     return switch (error) {
       final Failure failure => failure,
       final ApiException e => fromApi(e.statusCode, e.body),
-      NetworkException(:final detail) =>
-        Failure.gatewayUnreachable(detail: detail),
-      WebSocketChannelException(:final message) =>
-        Failure.gatewayUnreachable(detail: message ?? ''),
-      RequestTimeoutException() || TimeoutException() =>
-        const Failure.requestTimeout(),
-      InvalidResponseException(:final detail) =>
-        Failure.unexpected(detail: detail),
-      CheckedFromJsonException(:final message) =>
-        Failure.unexpected(detail: 'Resposta fora do contrato: $message'),
+      NetworkException(:final detail) => Failure.gatewayUnreachable(
+        detail: detail,
+      ),
+      WebSocketChannelException(:final message) => Failure.gatewayUnreachable(
+        detail: message ?? '',
+      ),
+      RequestTimeoutException() ||
+      TimeoutException() => const Failure.requestTimeout(),
+      InvalidResponseException(:final detail) => Failure.unexpected(
+        detail: detail,
+      ),
+      CheckedFromJsonException(:final message) => Failure.unexpected(
+        detail: 'Resposta fora do contrato: $message',
+      ),
       FormatException(:final message) => Failure.unexpected(detail: message),
       TypeError() => const Failure.unexpected(
-          detail: 'Resposta com tipo inesperado.',
-        ),
+        detail: 'Resposta com tipo inesperado.',
+      ),
       _ => Failure.unexpected(detail: error.toString()),
     };
   }
@@ -66,9 +70,9 @@ abstract final class FailureMapper {
       405 => const Failure.readOnly(),
       503 => const Failure.gatewayBusy(),
       400 || 404 || 413 => Failure.invalidRequest(
-          code: code.isEmpty ? 'http_$statusCode' : code,
-          message: message,
-        ),
+        code: code.isEmpty ? 'http_$statusCode' : code,
+        message: message,
+      ),
       _ => Failure.unexpected(detail: 'HTTP $statusCode $code $message'.trim()),
     };
   }
@@ -80,14 +84,14 @@ abstract final class FailureMapper {
       'busy' => const Failure.gatewayBusy(),
       'slave_timeout' => Failure.slaveTimeout(context: _context(message)),
       _ when _modbusCodes.contains(code) => Failure.modbusException(
-          code: code,
-          message: message['message'] as String? ?? '',
-          context: _context(message),
-        ),
+        code: code,
+        message: message['message'] as String? ?? '',
+        context: _context(message),
+      ),
       _ => Failure.invalidRequest(
-          code: code,
-          message: message['message'] as String? ?? '',
-        ),
+        code: code,
+        message: message['message'] as String? ?? '',
+      ),
     };
   }
 

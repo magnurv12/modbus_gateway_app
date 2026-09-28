@@ -109,7 +109,10 @@ class AlarmTile extends StatelessWidget {
                         children: [
                           Row(
                             children: [
-                              Text(alarm.equipmentTag, style: context.ds.overline),
+                              Text(
+                                alarm.equipmentTag,
+                                style: context.ds.overline,
+                              ),
                               SizedBox(width: s.sm),
                               DsBadge(
                                 label: alarm.active ? 'ATIVO' : 'NORMALIZADO',

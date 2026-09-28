@@ -23,13 +23,13 @@ class AlarmRepositoryImpl implements IAlarmRepository {
 
   /// Cria um [AlarmRepositoryImpl].
   AlarmRepositoryImpl(this._live, this._tracker, {DateTime Function()? now})
-      : _now = now ?? DateTime.now;
+    : _now = now ?? DateTime.now;
 
   @override
   Stream<List<Alarm>> watch(Plant plant) async* {
-    _subscription ??= _live.watch(plant).listen(
-          (state) => _publish(_tracker.update(plant, state, _now())),
-        );
+    _subscription ??= _live
+        .watch(plant)
+        .listen((state) => _publish(_tracker.update(plant, state, _now())));
     yield _current;
     yield* _alarms.stream;
   }

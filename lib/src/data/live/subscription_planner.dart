@@ -60,19 +60,22 @@ abstract final class SubscriptionPlanner {
       var end = group.first.lastAddress;
 
       void flush() {
-        plans.add(SubscriptionPlan(
-          id: '${table.path}-${slave ?? 'd'}-$start',
-          table: table,
-          slave: slave,
-          start: start,
-          count: end - start + 1,
-          tags: List.unmodifiable(current),
-        ));
+        plans.add(
+          SubscriptionPlan(
+            id: '${table.path}-${slave ?? 'd'}-$start',
+            table: table,
+            slave: slave,
+            start: start,
+            count: end - start + 1,
+            tags: List.unmodifiable(current),
+          ),
+        );
       }
 
       for (final tag in group.skip(1)) {
         final newEnd = tag.lastAddress > end ? tag.lastAddress : end;
-        final fits = tag.address - end - 1 <= maxGap &&
+        final fits =
+            tag.address - end - 1 <= maxGap &&
             newEnd - start + 1 <= table.maxReadCount;
         if (fits) {
           current.add(tag);

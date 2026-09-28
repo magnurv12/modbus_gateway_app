@@ -160,10 +160,7 @@ class DsKpiTile extends StatelessWidget {
           alignment: Alignment.centerLeft,
           child: value,
         ),
-        if (footer != null) ...[
-          SizedBox(height: context.spacing.sm),
-          footer!,
-        ],
+        if (footer != null) ...[SizedBox(height: context.spacing.sm), footer!],
       ],
     );
   }

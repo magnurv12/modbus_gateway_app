@@ -12,21 +12,21 @@ void main() {
     double offset = 0,
     double? min,
     double? max,
-  }) =>
-      TagDefinition(
-        id: 't',
-        name: 'T',
-        table: table,
-        address: 10,
-        dataType: table.isBit ? TagDataType.boolean : type,
-        wordOrder: order,
-        scale: scale,
-        offset: offset,
-        min: min,
-        max: max,
-      );
+  }) => TagDefinition(
+    id: 't',
+    name: 'T',
+    table: table,
+    address: 10,
+    dataType: table.isBit ? TagDataType.boolean : type,
+    wordOrder: order,
+    scale: scale,
+    offset: offset,
+    min: min,
+    max: max,
+  );
 
-  int? Function(int) raw(Map<int, int> values) => (a) => values[a];
+  int? Function(int) raw(Map<int, int> values) =>
+      (a) => values[a];
 
   group('decode', () {
     test('uint16 com escala', () {

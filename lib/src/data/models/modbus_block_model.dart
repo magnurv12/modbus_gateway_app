@@ -80,14 +80,14 @@ class ModbusBlockModel {
 
   /// Converte para a entidade de domínio.
   ModbusBlock toEntity() => ModbusBlock(
-        table: table,
-        slave: slave,
-        functionCode: functionCode,
-        startAddress: startAddress,
-        values: values,
-        cached: cached,
-        ageMs: ageMs,
-      );
+    table: table,
+    slave: slave,
+    functionCode: functionCode,
+    startAddress: startAddress,
+    values: values,
+    cached: cached,
+    ageMs: ageMs,
+  );
 
   static int _int(Object? value, String field) {
     if (value is int) return value;
@@ -96,9 +96,9 @@ class ModbusBlockModel {
   }
 
   static int _bit(Object? value) => switch (value) {
-        true => 1,
-        false => 0,
-        final num n => n == 0 ? 0 : 1,
-        _ => throw const FormatException('Estado de bit inválido.'),
-      };
+    true => 1,
+    false => 0,
+    final num n => n == 0 ? 0 : 1,
+    _ => throw const FormatException('Estado de bit inválido.'),
+  };
 }

@@ -25,12 +25,14 @@ class _GatewayPageState extends ViewState<GatewayPage, GatewayViewModel> {
         viewModel: viewModel,
         builder: (context, state) => switch (state) {
           GatewayStateLoading() => const DsLoadingView(cards: 4),
-          GatewayStateError(:final failure) =>
-            FailureView(failure: failure, onRetry: viewModel.load),
+          GatewayStateError(:final failure) => FailureView(
+            failure: failure,
+            onRetry: viewModel.load,
+          ),
           final GatewayStateLoaded loaded => RefreshIndicator(
-              onRefresh: viewModel.refresh,
-              child: _Loaded(state: loaded, viewModel: viewModel),
-            ),
+            onRefresh: viewModel.refresh,
+            child: _Loaded(state: loaded, viewModel: viewModel),
+          ),
         },
       ),
     );
@@ -75,76 +77,114 @@ class _Loaded extends StatelessWidget {
           ),
         ],
         const DsSectionHeader('Barramento RS-485'),
-        _InfoCard(rows: [
-          _Row('Configuração',
-              '${h.modbus.baud} bps · ${h.modbus.format} · timeout ${h.modbus.responseTimeoutMs} ms'),
-          _Row('Transações OK', Formatters.number(h.modbus.okCount.toDouble())),
-          _Row('Transações com erro', Formatters.number(h.modbus.errorCount.toDouble()),
-              color: h.modbus.errorCount > 0 ? c.alarmMedium : null),
-          _Row('Último resultado', h.modbus.lastResult,
-              color: h.modbus.lastResult == 'Success' ? null : c.alarmHigh),
-          if (h.modbus.lastSlave != null) _Row('Último escravo', '${h.modbus.lastSlave}'),
-          _Row('Respostas do cache', Formatters.number(h.modbus.cacheHits.toDouble())),
-        ], footer: rate == null
-            ? null
-            : _Meter(
-                label: 'Taxa de sucesso',
-                value: '${Formatters.number(rate * 100, decimals: 1)} %',
-                fraction: rate,
-                color: rate < 0.95 ? c.alarmMedium : c.success,
-              )),
+        _InfoCard(
+          rows: [
+            _Row(
+              'Configuração',
+              '${h.modbus.baud} bps · ${h.modbus.format} · timeout ${h.modbus.responseTimeoutMs} ms',
+            ),
+            _Row(
+              'Transações OK',
+              Formatters.number(h.modbus.okCount.toDouble()),
+            ),
+            _Row(
+              'Transações com erro',
+              Formatters.number(h.modbus.errorCount.toDouble()),
+              color: h.modbus.errorCount > 0 ? c.alarmMedium : null,
+            ),
+            _Row(
+              'Último resultado',
+              h.modbus.lastResult,
+              color: h.modbus.lastResult == 'Success' ? null : c.alarmHigh,
+            ),
+            if (h.modbus.lastSlave != null)
+              _Row('Último escravo', '${h.modbus.lastSlave}'),
+            _Row(
+              'Respostas do cache',
+              Formatters.number(h.modbus.cacheHits.toDouble()),
+            ),
+          ],
+          footer: rate == null
+              ? null
+              : _Meter(
+                  label: 'Taxa de sucesso',
+                  value: '${Formatters.number(rate * 100, decimals: 1)} %',
+                  fraction: rate,
+                  color: rate < 0.95 ? c.alarmMedium : c.success,
+                ),
+        ),
         const DsSectionHeader('Streaming WebSocket'),
-        _InfoCard(rows: [
-          _Row('Clientes conectados', '${h.stream.clients} / 4'),
-          _Row('Assinaturas', '${h.stream.subscriptions} / 32'),
-          _Row('Faixas consultadas', '${h.stream.pollBlocks} / 16'),
-        ], footer: _Meter(
-          label: 'Carga do barramento (limite 70 %)',
-          value: '${Formatters.number(h.stream.busLoadPct, decimals: 1)} %',
-          fraction: h.stream.busLoadPct / 70,
-          color: h.stream.busLoadPct > 60 ? c.alarmMedium : null,
-        )),
+        _InfoCard(
+          rows: [
+            _Row('Clientes conectados', '${h.stream.clients} / 4'),
+            _Row('Assinaturas', '${h.stream.subscriptions} / 32'),
+            _Row('Faixas consultadas', '${h.stream.pollBlocks} / 16'),
+          ],
+          footer: _Meter(
+            label: 'Carga do barramento (limite 70 %)',
+            value: '${Formatters.number(h.stream.busLoadPct, decimals: 1)} %',
+            fraction: h.stream.busLoadPct / 70,
+            color: h.stream.busLoadPct > 60 ? c.alarmMedium : null,
+          ),
+        ),
         const DsSectionHeader('Wi-Fi'),
-        _InfoCard(rows: [
-          _Row('Rede', h.wifi.ssid, trailing: DsSignalBars(bars: h.wifi.signalBars)),
-          _Row('Sinal', '${h.wifi.rssi} dBm · canal ${h.wifi.channel}'),
-          _Row('IP', h.wifi.ip, copyable: true),
-          _Row('Hostname', '${h.wifi.hostname}.local', copyable: true),
-          _Row('MAC', h.wifi.mac),
-        ]),
+        _InfoCard(
+          rows: [
+            _Row(
+              'Rede',
+              h.wifi.ssid,
+              trailing: DsSignalBars(bars: h.wifi.signalBars),
+            ),
+            _Row('Sinal', '${h.wifi.rssi} dBm · canal ${h.wifi.channel}'),
+            _Row('IP', h.wifi.ip, copyable: true),
+            _Row('Hostname', '${h.wifi.hostname}.local', copyable: true),
+            _Row('MAC', h.wifi.mac),
+          ],
+        ),
         const DsSectionHeader('Sistema'),
-        _InfoCard(rows: [
-          _Row('Firmware', h.firmware.version),
-          _Row('Chip', h.firmware.chip),
-          _Row('ESP-IDF · Arduino', '${h.firmware.idf} · ${h.firmware.arduinoCore}'),
-          _Row('Compilado em', h.firmware.buildTime),
-          _Row('Heap livre', Formatters.bytes(h.freeHeapBytes)),
-          _Row('Último reset', _resetReason(h.resetReason),
-              color: _isAbnormalReset(h.resetReason) ? c.alarmHigh : null),
-        ]),
+        _InfoCard(
+          rows: [
+            _Row('Firmware', h.firmware.version),
+            _Row('Chip', h.firmware.chip),
+            _Row(
+              'ESP-IDF · Arduino',
+              '${h.firmware.idf} · ${h.firmware.arduinoCore}',
+            ),
+            _Row('Compilado em', h.firmware.buildTime),
+            _Row('Heap livre', Formatters.bytes(h.freeHeapBytes)),
+            _Row(
+              'Último reset',
+              _resetReason(h.resetReason),
+              color: _isAbnormalReset(h.resetReason) ? c.alarmHigh : null,
+            ),
+          ],
+        ),
         const DsSectionHeader('Conexão do app'),
-        _InfoCard(rows: [
-          _Row('Ambiente', viewModel.environment),
-          _Row('Endereço', viewModel.endpoint, copyable: true),
-          _Row('Documentação', viewModel.docsUrl, copyable: true),
-          if (viewModel.simulated)
-            _Row('Fonte de dados', 'Simulador embutido', color: c.alarmLow),
-        ]),
+        _InfoCard(
+          rows: [
+            _Row('Ambiente', viewModel.environment),
+            _Row('Endereço', viewModel.endpoint, copyable: true),
+            _Row('Documentação', viewModel.docsUrl, copyable: true),
+            if (viewModel.simulated)
+              _Row('Fonte de dados', 'Simulador embutido', color: c.alarmLow),
+          ],
+        ),
       ],
     );
   }
 
   static String _resetReason(String reason) => switch (reason) {
-        'power_on' => 'Energização',
-        'external_pin' => 'Pino de reset',
-        'software' => 'Software',
-        'panic' => 'Pânico (crash)',
-        'interrupt_watchdog' || 'task_watchdog' || 'other_watchdog' =>
-          'Watchdog ($reason)',
-        'brownout' => 'Queda de tensão',
-        'deep_sleep' => 'Deep sleep',
-        _ => reason,
-      };
+    'power_on' => 'Energização',
+    'external_pin' => 'Pino de reset',
+    'software' => 'Software',
+    'panic' => 'Pânico (crash)',
+    'interrupt_watchdog' ||
+    'task_watchdog' ||
+    'other_watchdog' => 'Watchdog ($reason)',
+    'brownout' => 'Queda de tensão',
+    'deep_sleep' => 'Deep sleep',
+    _ => reason,
+  };
 
   static bool _isAbnormalReset(String reason) =>
       reason == 'panic' || reason == 'brownout' || reason.contains('watchdog');
@@ -216,7 +256,13 @@ class _Row {
   final bool copyable;
   final Widget? trailing;
 
-  const _Row(this.label, this.value, {this.color, this.copyable = false, this.trailing});
+  const _Row(
+    this.label,
+    this.value, {
+    this.color,
+    this.copyable = false,
+    this.trailing,
+  });
 }
 
 class _InfoCard extends StatelessWidget {
@@ -238,8 +284,10 @@ class _InfoCard extends StatelessWidget {
               onLongPress: row.copyable
                   ? () {
                       Clipboard.setData(ClipboardData(text: row.value));
-                      context.showDsSnackBar('Copiado: ${row.value}',
-                          icon: Icons.copy_rounded);
+                      context.showDsSnackBar(
+                        'Copiado: ${row.value}',
+                        icon: Icons.copy_rounded,
+                      );
                     }
                   : null,
               child: Padding(
@@ -264,7 +312,11 @@ class _InfoCard extends StatelessWidget {
                     ],
                     if (row.copyable) ...[
                       SizedBox(width: s.sm),
-                      Icon(Icons.copy_rounded, size: 14, color: context.colors.textMuted),
+                      Icon(
+                        Icons.copy_rounded,
+                        size: 14,
+                        color: context.colors.textMuted,
+                      ),
                     ],
                   ],
                 ),
@@ -273,7 +325,10 @@ class _InfoCard extends StatelessWidget {
           ],
           if (footer != null) ...[
             const Divider(),
-            Padding(padding: EdgeInsets.symmetric(vertical: s.md), child: footer),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: s.md),
+              child: footer,
+            ),
           ],
         ],
       ),
@@ -310,7 +365,10 @@ class _Meter extends StatelessWidget {
               ),
             ),
             SizedBox(width: context.spacing.sm),
-            Text(value, style: context.ds.mono.copyWith(fontWeight: FontWeight.w600)),
+            Text(
+              value,
+              style: context.ds.mono.copyWith(fontWeight: FontWeight.w600),
+            ),
           ],
         ),
         SizedBox(height: context.spacing.sm),
@@ -319,4 +377,3 @@ class _Meter extends StatelessWidget {
     );
   }
 }
-

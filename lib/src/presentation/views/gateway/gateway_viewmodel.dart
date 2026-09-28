@@ -13,7 +13,7 @@ class GatewayViewModel extends ViewModel<GatewayState> {
 
   /// Cria um [GatewayViewModel].
   GatewayViewModel(this._getHealth, this._env)
-      : super(const GatewayState.loading());
+    : super(const GatewayState.loading());
 
   /// Endereço configurado.
   String get endpoint => _env.baseUrl.toString();
@@ -38,10 +38,13 @@ class GatewayViewModel extends ViewModel<GatewayState> {
   Future<void> load() async {
     emit(const GatewayState.loading());
     final result = await _getHealth();
-    emit(result.fold(
-      GatewayState.error,
-      (health) => GatewayState.loaded(health: health, updatedAt: DateTime.now()),
-    ));
+    emit(
+      result.fold(
+        GatewayState.error,
+        (health) =>
+            GatewayState.loaded(health: health, updatedAt: DateTime.now()),
+      ),
+    );
   }
 
   /// Atualização silenciosa (pull-to-refresh e timer).
@@ -57,10 +60,14 @@ class GatewayViewModel extends ViewModel<GatewayState> {
     final result = await _getHealth();
     final latest = state;
     if (latest is! GatewayStateLoaded) return;
-    emit(result.fold(
-      (failure) => latest.copyWith(refreshing: false, refreshFailure: failure),
-      (health) => GatewayState.loaded(health: health, updatedAt: DateTime.now()),
-    ));
+    emit(
+      result.fold(
+        (failure) =>
+            latest.copyWith(refreshing: false, refreshFailure: failure),
+        (health) =>
+            GatewayState.loaded(health: health, updatedAt: DateTime.now()),
+      ),
+    );
   }
 
   @override

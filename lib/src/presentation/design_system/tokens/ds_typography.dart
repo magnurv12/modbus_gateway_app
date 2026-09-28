@@ -37,50 +37,55 @@ class DsTextStyles extends ThemeExtension<DsTextStyles> {
   });
 
   static const _tabular = [FontFeature.tabularFigures()];
-  static const _monoFamilies = ['Menlo', 'Roboto Mono', 'Consolas', 'monospace'];
+  static const _monoFamilies = [
+    'Menlo',
+    'Roboto Mono',
+    'Consolas',
+    'monospace',
+  ];
 
   /// Constrói os estilos a partir da paleta.
   factory DsTextStyles.from(DsColors c) => DsTextStyles(
-        valueHero: TextStyle(
-          fontSize: 44,
-          height: 1.05,
-          fontWeight: FontWeight.w600,
-          letterSpacing: -1,
-          color: c.textPrimary,
-          fontFeatures: _tabular,
-        ),
-        valueLarge: TextStyle(
-          fontSize: 26,
-          height: 1.1,
-          fontWeight: FontWeight.w600,
-          letterSpacing: -0.4,
-          color: c.textPrimary,
-          fontFeatures: _tabular,
-        ),
-        valueMedium: TextStyle(
-          fontSize: 17,
-          fontWeight: FontWeight.w600,
-          color: c.textPrimary,
-          fontFeatures: _tabular,
-        ),
-        unit: TextStyle(
-          fontSize: 13,
-          fontWeight: FontWeight.w500,
-          color: c.textSecondary,
-        ),
-        overline: TextStyle(
-          fontSize: 11,
-          fontWeight: FontWeight.w700,
-          letterSpacing: 1.1,
-          color: c.textMuted,
-        ),
-        mono: TextStyle(
-          fontSize: 13,
-          fontFamilyFallback: _monoFamilies,
-          color: c.textPrimary,
-          fontFeatures: _tabular,
-        ),
-      );
+    valueHero: TextStyle(
+      fontSize: 44,
+      height: 1.05,
+      fontWeight: FontWeight.w600,
+      letterSpacing: -1,
+      color: c.textPrimary,
+      fontFeatures: _tabular,
+    ),
+    valueLarge: TextStyle(
+      fontSize: 26,
+      height: 1.1,
+      fontWeight: FontWeight.w600,
+      letterSpacing: -0.4,
+      color: c.textPrimary,
+      fontFeatures: _tabular,
+    ),
+    valueMedium: TextStyle(
+      fontSize: 17,
+      fontWeight: FontWeight.w600,
+      color: c.textPrimary,
+      fontFeatures: _tabular,
+    ),
+    unit: TextStyle(
+      fontSize: 13,
+      fontWeight: FontWeight.w500,
+      color: c.textSecondary,
+    ),
+    overline: TextStyle(
+      fontSize: 11,
+      fontWeight: FontWeight.w700,
+      letterSpacing: 1.1,
+      color: c.textMuted,
+    ),
+    mono: TextStyle(
+      fontSize: 13,
+      fontFamilyFallback: _monoFamilies,
+      color: c.textPrimary,
+      fontFeatures: _tabular,
+    ),
+  );
 
   @override
   DsTextStyles copyWith() => this;

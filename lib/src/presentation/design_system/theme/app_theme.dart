@@ -57,16 +57,24 @@ abstract final class AppTheme {
     final textTheme = base.textTheme
         .apply(bodyColor: c.textPrimary, displayColor: c.textPrimary)
         .copyWith(
-          headlineSmall: base.textTheme.headlineSmall
-              ?.copyWith(fontWeight: FontWeight.w700, letterSpacing: -0.3),
-          titleLarge: base.textTheme.titleLarge
-              ?.copyWith(fontWeight: FontWeight.w700, letterSpacing: -0.2),
-          titleMedium:
-              base.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600),
-          bodyMedium: base.textTheme.bodyMedium?.copyWith(color: c.textSecondary),
+          headlineSmall: base.textTheme.headlineSmall?.copyWith(
+            fontWeight: FontWeight.w700,
+            letterSpacing: -0.3,
+          ),
+          titleLarge: base.textTheme.titleLarge?.copyWith(
+            fontWeight: FontWeight.w700,
+            letterSpacing: -0.2,
+          ),
+          titleMedium: base.textTheme.titleMedium?.copyWith(
+            fontWeight: FontWeight.w600,
+          ),
+          bodyMedium: base.textTheme.bodyMedium?.copyWith(
+            color: c.textSecondary,
+          ),
           bodySmall: base.textTheme.bodySmall?.copyWith(color: c.textMuted),
-          labelLarge:
-              base.textTheme.labelLarge?.copyWith(fontWeight: FontWeight.w600),
+          labelLarge: base.textTheme.labelLarge?.copyWith(
+            fontWeight: FontWeight.w600,
+          ),
         );
 
     final overlay = brightness == Brightness.dark
@@ -170,7 +178,10 @@ abstract final class AppTheme {
         selectedColor: c.accentMuted,
         side: BorderSide(color: c.border),
         shape: RoundedRectangleBorder(borderRadius: radius.pill),
-        labelStyle: TextStyle(color: c.textPrimary, fontWeight: FontWeight.w600),
+        labelStyle: TextStyle(
+          color: c.textPrimary,
+          fontWeight: FontWeight.w600,
+        ),
         checkmarkColor: c.accent,
         padding: EdgeInsets.symmetric(horizontal: spacing.sm),
       ),
@@ -206,7 +217,8 @@ abstract final class AppTheme {
       ),
       switchTheme: SwitchThemeData(
         thumbColor: WidgetStateProperty.resolveWith(
-          (s) => s.contains(WidgetState.selected) ? c.onAccent : c.textSecondary,
+          (s) =>
+              s.contains(WidgetState.selected) ? c.onAccent : c.textSecondary,
         ),
         trackColor: WidgetStateProperty.resolveWith(
           (s) => s.contains(WidgetState.selected) ? c.accent : c.surfaceSunken,

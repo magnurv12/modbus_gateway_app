@@ -52,8 +52,8 @@ class _ShellPageState extends ViewState<ShellPage, ShellViewModel> {
         return switch (state) {
           ShellStateLoading() => const Scaffold(body: DsLoadingView()),
           ShellStateError(:final failure) => Scaffold(
-              body: FailureView(failure: failure, onRetry: viewModel.load),
-            ),
+            body: FailureView(failure: failure, onRetry: viewModel.load),
+          ),
           final ShellStateReady ready => _buildReady(context, ready),
         };
       },

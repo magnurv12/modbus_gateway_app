@@ -46,7 +46,8 @@ enum ModbusTable {
   static ModbusTable parse(String value) {
     return ModbusTable.values.firstWhere(
       (t) => t.path == value,
-      orElse: () => throw ArgumentError.value(value, 'table', 'Tabela inválida'),
+      orElse: () =>
+          throw ArgumentError.value(value, 'table', 'Tabela inválida'),
     );
   }
 }

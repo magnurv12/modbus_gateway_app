@@ -58,9 +58,9 @@ class Env {
 
   /// URL do WebSocket derivada de [baseUrl] (`http` → `ws`, `https` → `wss`).
   Uri get wsUrl => baseUrl.replace(
-        scheme: baseUrl.scheme == 'https' ? 'wss' : 'ws',
-        path: wsPath,
-      );
+    scheme: baseUrl.scheme == 'https' ? 'wss' : 'ws',
+    path: wsPath,
+  );
 
   /// Carrega o YAML do ambiente selecionado. Deve ser aguardado uma vez no
   /// `main()`, depois de `WidgetsFlutterBinding.ensureInitialized()`.
@@ -94,10 +94,14 @@ class Env {
       appName: read<String>('APP_NAME', 'Supervisório Modbus'),
       baseUrl: baseUrl,
       wsPath: read<String>('WS_PATH', '/ws'),
-      requestTimeout: Duration(milliseconds: read<int>('REQUEST_TIMEOUT_MS', 4000)),
+      requestTimeout: Duration(
+        milliseconds: read<int>('REQUEST_TIMEOUT_MS', 4000),
+      ),
       defaultSlave: read<int>('DEFAULT_SLAVE', 1),
       liveInterval: Duration(milliseconds: read<int>('LIVE_INTERVAL_MS', 500)),
-      healthRefresh: Duration(milliseconds: read<int>('HEALTH_REFRESH_MS', 5000)),
+      healthRefresh: Duration(
+        milliseconds: read<int>('HEALTH_REFRESH_MS', 5000),
+      ),
       useSimulator: read<bool>('USE_SIMULATOR', false),
     );
   }

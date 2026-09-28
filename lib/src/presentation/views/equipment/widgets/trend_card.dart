@@ -79,6 +79,8 @@ class TrendCard extends StatelessWidget {
 
   String _window(List<TrendPoint> points) {
     final span = points.last.time.difference(points.first.time);
-    return span.inMinutes >= 1 ? '${span.inMinutes} min' : '${span.inSeconds} s';
+    return span.inMinutes >= 1
+        ? '${span.inMinutes} min'
+        : '${span.inSeconds} s';
   }
 }

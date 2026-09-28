@@ -59,12 +59,14 @@ class EquipmentViewModel extends ViewModel<EquipmentState>
     final firstTrend = equipment.tags
         .where((t) => !t.isBoolean && t.role == TagRole.measurement)
         .firstOrNull;
-    emit(EquipmentState.loaded(
-      equipment: equipment,
-      live: PlantLiveState.initial,
-      alarms: const [],
-      trendTagId: firstTrend?.id,
-    ));
+    emit(
+      EquipmentState.loaded(
+        equipment: equipment,
+        live: PlantLiveState.initial,
+        alarms: const [],
+        trendTagId: firstTrend?.id,
+      ),
+    );
 
     await _liveSub?.cancel();
     await _alarmSub?.cancel();
@@ -72,39 +74,43 @@ class EquipmentViewModel extends ViewModel<EquipmentState>
       _update((s) => s.copyWith(live: live));
     });
     _alarmSub = _watchAlarms(plant).listen((alarms) {
-      _update((s) => s.copyWith(
-            alarms: alarms.where((a) => a.equipmentId == equipment.id).toList(),
-          ));
+      _update(
+        (s) => s.copyWith(
+          alarms: alarms.where((a) => a.equipmentId == equipment.id).toList(),
+        ),
+      );
     });
   }
 
   /// Troca a tag do gráfico de tendência.
-  void selectTrend(String tagId) => _update((s) => s.copyWith(trendTagId: tagId));
+  void selectTrend(String tagId) =>
+      _update((s) => s.copyWith(trendTagId: tagId));
 
   /// Liga/desliga uma coil.
   Future<void> setCommand(TagDefinition tag, bool on) => _runWrite(
-        tag,
-        () => _writeTag(tag, TagValue.boolean(on)),
-        success: '${tag.name}: ${on ? tag.onLabel : tag.offLabel}',
-        retry: () => setCommand(tag, on),
-      );
+    tag,
+    () => _writeTag(tag, TagValue.boolean(on)),
+    success: '${tag.name}: ${on ? tag.onLabel : tag.offLabel}',
+    retry: () => setCommand(tag, on),
+  );
 
   /// Pulso em coil momentânea.
   Future<void> pulse(TagDefinition tag) => _runWrite(
-        tag,
-        () => _pulseTag(tag),
-        success: '${tag.name} enviado',
-        retry: () => pulse(tag),
-      );
+    tag,
+    () => _pulseTag(tag),
+    success: '${tag.name} enviado',
+    retry: () => pulse(tag),
+  );
 
   /// Escreve um setpoint em unidade de engenharia.
   Future<void> writeSetpoint(TagDefinition tag, double value) => _runWrite(
-        tag,
-        () => _writeTag(tag, TagValue.number(value)),
-        success: '${tag.name}: '
-            '${Formatters.withUnit(value, tag.unit, decimals: tag.decimals)}',
-        retry: () => writeSetpoint(tag, value),
-      );
+    tag,
+    () => _writeTag(tag, TagValue.number(value)),
+    success:
+        '${tag.name}: '
+        '${Formatters.withUnit(value, tag.unit, decimals: tag.decimals)}',
+    retry: () => writeSetpoint(tag, value),
+  );
 
   /// Reconhece um alarme do equipamento.
   void acknowledge(String alarmId) => _acknowledge(alarmId: alarmId);
@@ -124,9 +130,9 @@ class EquipmentViewModel extends ViewModel<EquipmentState>
 
     final result = await write();
 
-    _update((s) => s.copyWith(
-          pendingWrites: {...s.pendingWrites}..remove(tag.id),
-        ));
+    _update(
+      (s) => s.copyWith(pendingWrites: {...s.pendingWrites}..remove(tag.id)),
+    );
     result.fold(
       (failure) => emitEffect(WriteFailed(failure, retry)),
       (_) => emitEffect(WriteConfirmed(success)),

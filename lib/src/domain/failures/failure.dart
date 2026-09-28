@@ -71,12 +71,11 @@ sealed class Failure with _$Failure {
 
   /// Vale a pena tentar de novo sem mudar nada.
   bool get isTransient => switch (this) {
-        GatewayUnreachableFailure() ||
-        RequestTimeoutFailure() ||
-        SlaveTimeoutFailure() ||
-        GatewayBusyFailure() =>
-          true,
-        ModbusExceptionFailure(:final code) => code == 'bad_response',
-        _ => false,
-      };
+    GatewayUnreachableFailure() ||
+    RequestTimeoutFailure() ||
+    SlaveTimeoutFailure() ||
+    GatewayBusyFailure() => true,
+    ModbusExceptionFailure(:final code) => code == 'bad_response',
+    _ => false,
+  };
 }

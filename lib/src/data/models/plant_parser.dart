@@ -69,7 +69,11 @@ abstract final class PlantParser {
         '$path.type',
         fallback: EquipmentType.generic,
       ),
-      description: _string(map['description'], '$path.description', fallback: ''),
+      description: _string(
+        map['description'],
+        '$path.description',
+        fallback: '',
+      ),
       tags: List.unmodifiable([
         for (var i = 0; i < tagsNode.length; i++)
           _tag(tagsNode[i], '$path.tags[$i]'),
@@ -94,11 +98,14 @@ abstract final class PlantParser {
     }
 
     final address = _int(map['address'], '$path.address');
-    if (address < 0 || address + dataType.registers - 1 > ModbusTable.maxAddress) {
+    if (address < 0 ||
+        address + dataType.registers - 1 > ModbusTable.maxAddress) {
       throw PlantConfigException('$path.address', 'fora de 0–65535');
     }
 
-    final slave = map['slave'] == null ? null : _int(map['slave'], '$path.slave');
+    final slave = map['slave'] == null
+        ? null
+        : _int(map['slave'], '$path.slave');
     if (slave != null && (slave < 1 || slave > 247)) {
       throw PlantConfigException('$path.slave', 'deve estar entre 1 e 247');
     }
@@ -114,8 +121,9 @@ abstract final class PlantParser {
       throw PlantConfigException('$path.momentary', 'só se aplica a coils');
     }
 
-    final alarmsNode =
-        map['alarms'] == null ? const <Object?>[] : _list(map['alarms'], '$path.alarms');
+    final alarmsNode = map['alarms'] == null
+        ? const <Object?>[]
+        : _list(map['alarms'], '$path.alarms');
 
     return TagDefinition(
       id: _string(map['id'], '$path.id'),
@@ -132,14 +140,20 @@ abstract final class PlantParser {
       ),
       scale: _doubleOrNull(map['scale'], '$path.scale') ?? 1,
       offset: _doubleOrNull(map['offset'], '$path.offset') ?? 0,
-      decimals: map['decimals'] == null ? 0 : _int(map['decimals'], '$path.decimals'),
+      decimals: map['decimals'] == null
+          ? 0
+          : _int(map['decimals'], '$path.decimals'),
       unit: _string(map['unit'], '$path.unit', fallback: ''),
       min: min,
       max: max,
       primary: map['primary'] == true,
       momentary: momentary,
       onLabel: _string(map['onLabel'], '$path.onLabel', fallback: 'Ligado'),
-      offLabel: _string(map['offLabel'], '$path.offLabel', fallback: 'Desligado'),
+      offLabel: _string(
+        map['offLabel'],
+        '$path.offLabel',
+        fallback: 'Desligado',
+      ),
       alarms: List.unmodifiable([
         for (var i = 0; i < alarmsNode.length; i++)
           _alarm(alarmsNode[i], '$path.alarms[$i]', isBit: table.isBit),
@@ -155,7 +169,9 @@ abstract final class PlantParser {
     if (analog == isBit) {
       throw PlantConfigException(
         '$path.when',
-        isBit ? 'tags digitais usam on/off' : 'tags analógicas usam above/below',
+        isBit
+            ? 'tags digitais usam on/off'
+            : 'tags analógicas usam above/below',
       );
     }
     final limit = _doubleOrNull(map['limit'], '$path.limit');

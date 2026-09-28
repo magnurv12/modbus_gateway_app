@@ -37,8 +37,8 @@ class PlantOverview extends StatelessWidget {
     final top = active.isEmpty
         ? null
         : active
-            .map((a) => a.severity)
-            .reduce((a, b) => a.priority <= b.priority ? a : b);
+              .map((a) => a.severity)
+              .reduce((a, b) => a.priority <= b.priority ? a : b);
 
     final tags = plant.allTags.toList();
     final good = tags
@@ -64,7 +64,9 @@ class PlantOverview extends StatelessWidget {
                     color: top?.tone.color(c),
                   ),
                   footer: Text(
-                    unacked == 0 ? 'todos reconhecidos' : '$unacked não reconhecidos',
+                    unacked == 0
+                        ? 'todos reconhecidos'
+                        : '$unacked não reconhecidos',
                     style: context.text.bodySmall,
                   ),
                 ),
@@ -82,7 +84,9 @@ class PlantOverview extends StatelessWidget {
                   color: commColor,
                 ),
                 footer: Text(
-                  good == tags.length ? 'comunicação OK' : 'qualidade degradada',
+                  good == tags.length
+                      ? 'comunicação OK'
+                      : 'qualidade degradada',
                   style: context.text.bodySmall,
                 ),
               ),

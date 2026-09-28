@@ -43,8 +43,15 @@ class AlarmTracker {
           );
 
           if (active) {
-            _alarms[id] = _raiseOrRefresh(existing, id, equipment, tag, rule,
-                reading.value, now);
+            _alarms[id] = _raiseOrRefresh(
+              existing,
+              id,
+              equipment,
+              tag,
+              rule,
+              reading.value,
+              now,
+            );
           } else if (existing != null && existing.active) {
             final cleared = existing.copyWith(active: false, clearedAt: now);
             if (cleared.isResolved) {

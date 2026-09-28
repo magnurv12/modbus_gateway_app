@@ -85,7 +85,10 @@ class RemoteGatewayDataSource implements IGatewayDataSource {
     }
 
     final body = table.isBit
-        ? {'startAddress': start, 'states': [for (final v in values) v != 0]}
+        ? {
+            'startAddress': start,
+            'states': [for (final v in values) v != 0],
+          }
         : {'startAddress': start, 'values': values};
     final json = await _api.put('/api/${table.path}', body, query: query);
     return ModbusBlockModel.fromJson(json);
@@ -101,9 +104,8 @@ class SimulatedGatewayDataSource implements IGatewayDataSource {
   SimulatedGatewayDataSource(this._simulator);
 
   /// Latência típica de uma transação a 9600 baud (~50 ms).
-  Future<void> _busLatency() => Future.delayed(
-        Duration(milliseconds: 40 + _random.nextInt(40)),
-      );
+  Future<void> _busLatency() =>
+      Future.delayed(Duration(milliseconds: 40 + _random.nextInt(40)));
 
   @override
   Future<HealthModel> getHealth() async {

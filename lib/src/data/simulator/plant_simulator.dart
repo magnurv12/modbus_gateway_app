@@ -63,11 +63,11 @@ class PlantSimulator {
       ModbusTable.holding => _holding.sublist(start, start + count),
       ModbusTable.input => _input.sublist(start, start + count),
       ModbusTable.coils => [
-          for (final b in _coils.sublist(start, start + count)) b ? 1 : 0,
-        ],
+        for (final b in _coils.sublist(start, start + count)) b ? 1 : 0,
+      ],
       ModbusTable.discrete => [
-          for (final b in _discrete.sublist(start, start + count)) b ? 1 : 0,
-        ],
+        for (final b in _discrete.sublist(start, start + count)) b ? 1 : 0,
+      ],
     };
   }
 
@@ -159,7 +159,9 @@ class PlantSimulator {
 
     final running = _freq > 0.5;
     final deadHead = running && !valveOpen;
-    final current = running ? 8 + 22 * ratio * ratio * (valveOpen ? 1 : 0.8) : 0.0;
+    final current = running
+        ? 8 + 22 * ratio * ratio * (valveOpen ? 1 : 0.8)
+        : 0.0;
     final targetTemp = 30 + current * 1.4 + (deadHead ? 45 : 0);
     _temp += (targetTemp - _temp) * (1 - math.exp(-dt / 12));
 
