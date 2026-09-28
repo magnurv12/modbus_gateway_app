@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:fake_async/fake_async.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:modbus_supervisor/src/data/data.dart';
-import 'package:modbus_supervisor/src/domain/domain.dart';
+import 'package:modbus_gateway_app/src/data/data.dart';
+import 'package:modbus_gateway_app/src/domain/domain.dart';
 
 /// Datasource controlável: o teste decide o que o "gateway" envia.
 class _FakeLiveSource implements ILiveStreamDataSource {

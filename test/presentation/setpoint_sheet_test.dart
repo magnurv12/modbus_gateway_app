@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:intl/date_symbol_data_local.dart';
-import 'package:modbus_supervisor/src/domain/domain.dart';
-import 'package:modbus_supervisor/src/presentation/design_system/design_system.dart';
-import 'package:modbus_supervisor/src/presentation/views/equipment/widgets/setpoint_sheet.dart';
+import 'package:modbus_gateway_app/src/domain/domain.dart';
+import 'package:modbus_gateway_app/src/presentation/design_system/design_system.dart';
+import 'package:modbus_gateway_app/src/presentation/views/equipment/widgets/setpoint_sheet.dart';
 
 void main() {
   const tag = TagDefinition(

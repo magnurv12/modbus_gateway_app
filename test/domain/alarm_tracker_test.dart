@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:modbus_supervisor/src/domain/domain.dart';
+import 'package:modbus_gateway_app/src/domain/domain.dart';
 
 void main() {
   const level = TagDefinition(

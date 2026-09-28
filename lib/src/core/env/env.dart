@@ -91,7 +91,7 @@ class Env {
 
     return Env(
       name: name,
-      appName: read<String>('APP_NAME', 'Supervisório Modbus'),
+      appName: read<String>('APP_NAME', 'Modbus Gateway'),
       baseUrl: baseUrl,
       wsPath: read<String>('WS_PATH', '/ws'),
       requestTimeout: Duration(

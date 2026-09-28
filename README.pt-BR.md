@@ -1,6 +1,6 @@
 <div align="center">
 
-# Supervisório Modbus
+# Modbus Gateway
 
 **Um SCADA mobile para o [ESP32 Modbus Gateway](https://github.com/magnurv12/esp32-modbus-gateway)**
 Monitore sensores, comande atuadores, gerencie alarmes e inspecione qualquer registrador Modbus — pelo celular.
@@ -90,7 +90,7 @@ quatro tabelas do Modbus.
 
 ```mermaid
 flowchart LR
-    subgraph Phone["📱 Supervisório Modbus (Flutter)"]
+    subgraph Phone["📱 Modbus Gateway App (Flutter)"]
         UI["Telas<br/>(view models Cubit)"]
         LIVE["Repositório ao vivo<br/>1 WebSocket compartilhado"]
         REST["Repositório do gateway<br/>cliente REST"]
@@ -208,8 +208,8 @@ aconteceu, por quê e o que fazer**:
 ### Instalar
 
 ```bash
-git clone <url-do-repositorio> modbus_supervisor
-cd modbus_supervisor
+git clone <url-do-repositorio> modbus_gateway_app
+cd modbus_gateway_app
 flutter pub get
 dart run build_runner build   # freezed / json_serializable (gerados já versionados)
 ```

@@ -1,6 +1,6 @@
 <div align="center">
 
-# Modbus Supervisor
+# Modbus Gateway
 
 **A mobile SCADA for the [ESP32 Modbus Gateway](https://github.com/magnurv12/esp32-modbus-gateway)**
 Monitor sensors, command actuators, manage alarms and inspect any Modbus register — from your phone.
@@ -90,7 +90,7 @@ Modbus tables.
 
 ```mermaid
 flowchart LR
-    subgraph Phone["📱 Modbus Supervisor (Flutter)"]
+    subgraph Phone["📱 Modbus Gateway App (Flutter)"]
         UI["Screens<br/>(Cubit view models)"]
         LIVE["Live data repository<br/>1 shared WebSocket"]
         REST["Gateway repository<br/>REST client"]
@@ -208,8 +208,8 @@ Every gateway error becomes a typed `Failure` that tells the operator
 ### Install
 
 ```bash
-git clone <repository-url> modbus_supervisor
-cd modbus_supervisor
+git clone <repository-url> modbus_gateway_app
+cd modbus_gateway_app
 flutter pub get
 dart run build_runner build   # freezed / json_serializable (outputs are committed)
 ```

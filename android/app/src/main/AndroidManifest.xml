@@ -2,7 +2,7 @@
     <!-- Rede local: REST + WebSocket do gateway ESP32 -->
     <uses-permission android:name="android.permission.INTERNET" />
     <application
-        android:label="Supervisório Modbus"
+        android:label="Modbus Gateway"
         android:usesCleartextTraffic="true"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">

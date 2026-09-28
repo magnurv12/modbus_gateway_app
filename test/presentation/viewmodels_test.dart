@@ -2,10 +2,10 @@ import 'package:bloc_test/bloc_test.dart';
 import 'package:either_dart/either.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:modbus_supervisor/src/domain/domain.dart';
-import 'package:modbus_supervisor/src/presentation/views/equipment/equipment_state.dart';
-import 'package:modbus_supervisor/src/presentation/views/explorer/explorer_state.dart';
-import 'package:modbus_supervisor/src/presentation/views/views.dart';
+import 'package:modbus_gateway_app/src/domain/domain.dart';
+import 'package:modbus_gateway_app/src/presentation/views/equipment/equipment_state.dart';
+import 'package:modbus_gateway_app/src/presentation/views/explorer/explorer_state.dart';
+import 'package:modbus_gateway_app/src/presentation/views/views.dart';
 
 class _GetPlant extends Mock implements IGetPlantUseCase {}
 

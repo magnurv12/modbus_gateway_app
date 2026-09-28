@@ -1,6 +1,6 @@
-name: modbus_supervisor
+name: modbus_gateway_app
 description: >-
-  Supervisório mobile (SCADA) para o ESP32 Modbus Gateway — sensores,
+  Modbus Gateway — supervisório mobile (SCADA) para o ESP32 Modbus Gateway — sensores,
   atuadores, alarmes e explorador Modbus sobre REST + WebSocket.
 publish_to: 'none'
 version: 1.0.0+1

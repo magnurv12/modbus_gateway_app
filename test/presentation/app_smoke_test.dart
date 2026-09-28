@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get_it/get_it.dart';
 import 'package:intl/date_symbol_data_local.dart';
-import 'package:modbus_supervisor/src/app_widget.dart';
-import 'package:modbus_supervisor/src/core/env/env.dart';
-import 'package:modbus_supervisor/src/data/data.dart';
-import 'package:modbus_supervisor/src/domain/domain.dart';
-import 'package:modbus_supervisor/src/injector.dart';
-import 'package:modbus_supervisor/src/presentation/views/views.dart';
+import 'package:modbus_gateway_app/src/app_widget.dart';
+import 'package:modbus_gateway_app/src/core/env/env.dart';
+import 'package:modbus_gateway_app/src/data/data.dart';
+import 'package:modbus_gateway_app/src/domain/domain.dart';
+import 'package:modbus_gateway_app/src/injector.dart';
+import 'package:modbus_gateway_app/src/presentation/views/views.dart';
 
 /// Sobe o app inteiro contra o simulador e navega pelas quatro abas e pelo
 /// detalhe de um equipamento — valida DI, rotas nomeadas e renderização.
@@ -17,7 +17,7 @@ void main() {
     setupInjector(
       Env(
         name: 'test',
-        appName: 'Supervisório (teste)',
+        appName: 'Modbus Gateway (teste)',
         baseUrl: Uri.parse('http://modbus-gateway.local'),
         wsPath: '/ws',
         requestTimeout: const Duration(seconds: 4),

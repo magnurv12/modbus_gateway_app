@@ -1,7 +1,7 @@
 # Ambiente de desenvolvimento — gateway real na rede local.
 # Selecionado com: flutter run --dart-define=ENVIRONMENT=dev (padrão)
 
-APP_NAME: "Supervisório Modbus"
+APP_NAME: "Modbus Gateway"
 
 # DNS mDNS publicado pelo firmware (wifi_setup.cpp). Em Android, o mDNS
 # (.local) nem sempre resolve: troque pelo IP mostrado em /api/health.

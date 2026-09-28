@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:modbus_supervisor/src/data/data.dart';
+import 'package:modbus_gateway_app/src/data/data.dart';
 
 void main() {
   // Regressão: o erro de conexão ficava preso porque o onCancel aguardava

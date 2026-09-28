@@ -1,9 +1,9 @@
 import 'dart:async';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:modbus_supervisor/src/core/network/network_exceptions.dart';
-import 'package:modbus_supervisor/src/data/data.dart';
-import 'package:modbus_supervisor/src/domain/domain.dart';
+import 'package:modbus_gateway_app/src/core/network/network_exceptions.dart';
+import 'package:modbus_gateway_app/src/data/data.dart';
+import 'package:modbus_gateway_app/src/domain/domain.dart';
 
 void main() {
   group('FailureMapper.fromApi (contrato docs/openapi.yaml)', () {

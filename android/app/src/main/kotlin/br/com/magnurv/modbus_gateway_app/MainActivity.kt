@@ -1,4 +1,4 @@
-package br.com.magnurv.modbus_supervisor
+package br.com.magnurv.modbus_gateway_app
 
 import io.flutter.embedding.android.FlutterActivity
 
