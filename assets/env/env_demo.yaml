@@ -1,0 +1,11 @@
+# Ambiente de demonstração — simulador embutido, sem hardware.
+# Selecionado com: flutter run --dart-define=ENVIRONMENT=demo
+
+APP_NAME: "Supervisório Modbus (demo)"
+BASE_URL: "http://modbus-gateway.local"
+WS_PATH: "/ws"
+REQUEST_TIMEOUT_MS: 4000
+DEFAULT_SLAVE: 1
+LIVE_INTERVAL_MS: 500
+HEALTH_REFRESH_MS: 5000
+USE_SIMULATOR: true

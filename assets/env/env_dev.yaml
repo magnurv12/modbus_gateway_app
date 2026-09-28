@@ -1,0 +1,27 @@
+# Ambiente de desenvolvimento — gateway real na rede local.
+# Selecionado com: flutter run --dart-define=ENVIRONMENT=dev (padrão)
+
+APP_NAME: "Supervisório Modbus"
+
+# DNS mDNS publicado pelo firmware (wifi_setup.cpp). Em Android, o mDNS
+# (.local) nem sempre resolve: troque pelo IP mostrado em /api/health.
+BASE_URL: "http://modbus-gateway.local"
+
+# Endpoint WebSocket de streaming (docs/websocket.md)
+WS_PATH: "/ws"
+
+# Timeout HTTP. O ModbusMaster leva ~2 s para desistir de um escravo mudo,
+# então o timeout do app precisa ser maior que isso para o 504 chegar.
+REQUEST_TIMEOUT_MS: 4000
+
+# Escravo usado quando a tag não define um próprio
+DEFAULT_SLAVE: 1
+
+# Intervalo pedido nas assinaturas WebSocket (100–60000 ms)
+LIVE_INTERVAL_MS: 500
+
+# Intervalo de atualização automática da tela Gateway
+HEALTH_REFRESH_MS: 5000
+
+# true = usa o simulador embutido em vez do gateway (sem hardware)
+USE_SIMULATOR: false

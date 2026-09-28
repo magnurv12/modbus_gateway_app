@@ -1,0 +1,268 @@
+# Mapa de tags da planta supervisionada.
+#
+# Cada tag aponta para um endereço de uma das quatro tabelas Modbus do
+# gateway. Troque endereços/escalas para apontar para o seu escravo real —
+# nenhuma linha de código precisa mudar.
+#
+# Endereços são os do protocolo (base 0), como a API do gateway espera:
+# "40001" de manual = holding address 0.
+#
+# Campos da tag:
+#   table     holding | input | coils | discrete
+#   address   endereço base 0
+#   type      uint16 | int16 | uint32 | int32 | float32 | bool (padrão: uint16,
+#             ou bool em coils/discrete)
+#   wordOrder big (palavra alta primeiro, padrão) | little — só p/ 32 bits
+#   scale     valor_engenharia = bruto * scale + offset
+#   slave     opcional, sobrescreve o DEFAULT_SLAVE do env
+#   primary   destaque no card do equipamento
+#   momentary coil de pulso (liga e desliga sozinho, ex.: reset)
+#   alarms    lista de regras: when above|below (limit) ou on|off
+
+plant:
+  name: "Estação de Bombeamento EB-01"
+  site: "Captação de água — Linha 1"
+  equipments:
+    - id: tq01
+      tag: "TQ-01"
+      name: "Reservatório"
+      type: tank
+      description: "Reservatório de sucção com chaves de nível LSH/LSL. Em automático a P-101 liga no nível máximo e desliga no mínimo."
+      tags:
+        - id: tq01_level
+          name: "Nível"
+          table: input
+          address: 0
+          scale: 0.1
+          decimals: 1
+          unit: "%"
+          min: 0
+          max: 100
+          primary: true
+          alarms:
+            - when: above
+              limit: 90
+              severity: high
+              message: "Nível alto no reservatório"
+            - when: below
+              limit: 10
+              severity: high
+              message: "Nível baixo — risco de cavitação da bomba"
+        - id: tq01_lsh
+          name: "Chave de nível alto (LSH)"
+          table: discrete
+          address: 2
+          onLabel: "Atuada"
+          offLabel: "Normal"
+          alarms:
+            - when: on
+              severity: critical
+              message: "Transbordo iminente — LSH atuada"
+        - id: tq01_lsl
+          name: "Chave de nível baixo (LSL)"
+          table: discrete
+          address: 3
+          onLabel: "Atuada"
+          offLabel: "Normal"
+          alarms:
+            - when: on
+              severity: critical
+              message: "Reservatório vazio — LSL atuada"
+        - id: tq01_sp_max
+          name: "Nível para ligar a bomba (auto)"
+          table: holding
+          address: 1
+          scale: 0.1
+          decimals: 1
+          unit: "%"
+          min: 50
+          max: 95
+        - id: tq01_sp_min
+          name: "Nível para desligar a bomba (auto)"
+          table: holding
+          address: 2
+          scale: 0.1
+          decimals: 1
+          unit: "%"
+          min: 5
+          max: 50
+
+    - id: p101
+      tag: "P-101"
+      name: "Motobomba"
+      type: pump
+      description: "Bomba centrífuga 15 cv acionada por inversor de frequência."
+      tags:
+        - id: p101_freq
+          name: "Frequência"
+          table: input
+          address: 5
+          scale: 0.1
+          decimals: 1
+          unit: "Hz"
+          min: 0
+          max: 60
+          primary: true
+        - id: p101_current
+          name: "Corrente do motor"
+          table: input
+          address: 4
+          scale: 0.1
+          decimals: 1
+          unit: "A"
+          min: 0
+          max: 40
+          primary: true
+          alarms:
+            - when: above
+              limit: 32
+              severity: medium
+              message: "Sobrecorrente no motor da P-101"
+        - id: p101_temp
+          name: "Temperatura do motor"
+          table: input
+          address: 3
+          scale: 0.1
+          decimals: 1
+          unit: "°C"
+          min: 0
+          max: 120
+          alarms:
+            - when: above
+              limit: 80
+              severity: high
+              message: "Temperatura elevada no motor da P-101"
+        - id: p101_running
+          name: "Em operação"
+          table: discrete
+          address: 0
+          onLabel: "Operando"
+          offLabel: "Parada"
+        - id: p101_fault
+          name: "Falha do inversor"
+          table: discrete
+          address: 1
+          onLabel: "Em falha"
+          offLabel: "OK"
+          alarms:
+            - when: on
+              severity: critical
+              message: "Falha no inversor da P-101"
+        - id: p101_run_cmd
+          name: "Comando da bomba"
+          table: coils
+          address: 0
+          onLabel: "Ligada"
+          offLabel: "Desligada"
+        - id: p101_auto
+          name: "Modo automático"
+          table: coils
+          address: 2
+          onLabel: "Automático"
+          offLabel: "Manual"
+        - id: p101_reset
+          name: "Reset de falhas"
+          table: coils
+          address: 3
+          momentary: true
+        - id: p101_sp_freq
+          name: "Setpoint de frequência"
+          table: holding
+          address: 0
+          scale: 0.1
+          decimals: 1
+          unit: "Hz"
+          min: 0
+          max: 60
+        - id: p101_ramp
+          name: "Rampa de aceleração"
+          table: holding
+          address: 3
+          unit: "s"
+          min: 1
+          max: 60
+
+    - id: xv101
+      tag: "XV-101"
+      name: "Válvula de recalque"
+      type: valve
+      description: "Válvula on/off na saída da linha de recalque."
+      tags:
+        - id: xv101_flow
+          name: "Vazão"
+          table: input
+          address: 2
+          scale: 0.1
+          decimals: 1
+          unit: "m³/h"
+          min: 0
+          max: 120
+          primary: true
+        - id: xv101_pressure
+          name: "Pressão de recalque"
+          table: input
+          address: 1
+          scale: 0.01
+          decimals: 2
+          unit: "bar"
+          min: 0
+          max: 10
+          primary: true
+          alarms:
+            - when: above
+              limit: 7.5
+              severity: medium
+              message: "Pressão de recalque alta"
+        - id: xv101_open_cmd
+          name: "Comando da válvula"
+          table: coils
+          address: 1
+          onLabel: "Aberta"
+          offLabel: "Fechada"
+
+    - id: qgbt01
+      tag: "QGBT-01"
+      name: "Painel elétrico"
+      type: panel
+      description: "Quadro geral com multimedidor de energia."
+      tags:
+        - id: qg_power
+          name: "Potência ativa"
+          table: input
+          address: 8
+          scale: 0.1
+          decimals: 1
+          unit: "kW"
+          min: 0
+          max: 20
+          primary: true
+        - id: qg_energy
+          name: "Energia acumulada"
+          table: input
+          address: 6
+          type: uint32
+          wordOrder: big
+          scale: 0.1
+          decimals: 1
+          unit: "kWh"
+          primary: true
+        - id: qg_door
+          name: "Porta do painel"
+          table: discrete
+          address: 4
+          onLabel: "Aberta"
+          offLabel: "Fechada"
+          alarms:
+            - when: on
+              severity: low
+              message: "Porta do painel elétrico aberta"
+        - id: qg_estop
+          name: "Botão de emergência"
+          table: discrete
+          address: 5
+          onLabel: "Acionado"
+          offLabel: "Normal"
+          alarms:
+            - when: on
+              severity: critical
+              message: "Botão de emergência acionado"
